@@ -1,0 +1,12 @@
+
+/* Class = "IBUITextField"; placeholder = "Usuario"; ObjectID = "3cr-rd-u8e"; */
+"3cr-rd-u8e.placeholder" = "Usuario";
+
+/* Class = "IBUIButton"; normalTitle = "Ver Videos"; ObjectID = "ahm-tv-TCf"; */
+"ahm-tv-TCf.normalTitle" = "Ver Videos";
+
+/* Class = "IBUITextField"; placeholder = "Password"; ObjectID = "ddC-dy-Tig"; */
+"ddC-dy-Tig.placeholder" = "Password";
+
+/* Class = "IBUIButton"; normalTitle = "Login"; ObjectID = "roU-3L-jeS"; */
+"roU-3L-jeS.normalTitle" = "Login";
