@@ -47,7 +47,7 @@
 
 -(void)showAlertLogin
 {
-    UIAlertView *alertViewLogin = [[UIAlertView alloc] initWithTitle:@"Login" message:@"Login Incorrecto" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alertViewLogin = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login", nil) message:NSLocalizedString(@"Login Incorrecto", nil)delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
     [alertViewLogin show];
 }
 
