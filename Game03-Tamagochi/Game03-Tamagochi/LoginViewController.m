@@ -6,22 +6,58 @@
 //  Copyright (c) 2015 Medianet. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "LoginViewController.h"
+#import "Persistence.h"
+#import "ShowVideosViewController.h"
 
-@interface ViewController ()
-
+@interface LoginViewController ()
+-(void)showAlertLogin;
 @end
 
-@implementation ViewController
+@implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.persistence = [[Persistence alloc] init];
+    //[self.persistence loadNewUsers];
+    //[self.persistence deleteAllUser];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)accessLogin:(id)sender
+{
+    NSString *solucion = [self.persistence findUsers:self.txtUsuario.text toPassword:self.txtPassword.text];
+    //    NSString *solucion = [self.persistence countUser];
+    NSLog(@"Solucion: %@", solucion);
+    
+    if ([solucion isEqualToString: @"OK"])
+    {
+        [self performSegueWithIdentifier:@"LoginSegue" sender:sender];
+    }
+    else
+    {
+        [self showAlertLogin];
+    }
+}
+
+-(void)showAlertLogin
+{
+    UIAlertView *alertViewLogin = [[UIAlertView alloc] initWithTitle:@"Login" message:@"Login Incorrecto" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertViewLogin show];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([[segue identifier] isEqualToString:@"LoginSegue"]) {
+        ShowVideosViewController *showVideosViewController = segue.destinationViewController;
+        
+        //Se tiene que pasar información del usuario para saber que mostrar si es Admin
+    }
 }
 
 @end

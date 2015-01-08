@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Persistence;
+@interface LoginViewController : UIViewController
 
-@interface ViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextField *txtUsuario;
+@property (weak, nonatomic) IBOutlet UITextField *txtPassword;
 
+@property (strong, nonatomic) Persistence *persistence;
 
+- (IBAction)accessLogin:(id)sender;
 @end
 
