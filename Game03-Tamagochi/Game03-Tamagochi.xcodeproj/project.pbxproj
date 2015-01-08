@@ -19,6 +19,7 @@
 		2F1546A61A5AFAE900C9AF01 /* RankingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F1546A51A5AFAE900C9AF01 /* RankingViewController.m */; };
 		2FAB4FD91A5D80F100DFFAB3 /* UsuarioInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB4FD81A5D80F100DFFAB3 /* UsuarioInfo.m */; };
 		2FAB4FDC1A5D8CD000DFFAB3 /* Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB4FDB1A5D8CD000DFFAB3 /* Persistence.m */; };
+		2FBC757A1A5ED8E6003825F6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FBC757C1A5ED8E6003825F6 /* Localizable.strings */; };
 		A4C9063F87C0BBEB5D1B49A0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C05812C86710DB6F284772C /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,9 @@
 		2FAB4FD81A5D80F100DFFAB3 /* UsuarioInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsuarioInfo.m; sourceTree = "<group>"; };
 		2FAB4FDA1A5D8CD000DFFAB3 /* Persistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
 		2FAB4FDB1A5D8CD000DFFAB3 /* Persistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persistence.m; sourceTree = "<group>"; };
+		2FBC75781A5ED8AB003825F6 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		2FBC75791A5ED8AB003825F6 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2FBC757B1A5ED8E6003825F6 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E50FF70941A8783045929F52 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +122,7 @@
 		2F1546771A5AF6E100C9AF01 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2FBC757C1A5ED8E6003825F6 /* Localizable.strings */,
 				2F1546781A5AF6E100C9AF01 /* Info.plist */,
 				2F1546791A5AF6E100C9AF01 /* main.m */,
 			);
@@ -272,6 +277,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FBC757A1A5ED8E6003825F6 /* Localizable.strings in Resources */,
 				2F1546861A5AF6E100C9AF01 /* Main.storyboard in Resources */,
 				2F15468B1A5AF6E100C9AF01 /* LaunchScreen.xib in Resources */,
 				2F1546881A5AF6E100C9AF01 /* Images.xcassets in Resources */,
@@ -359,6 +365,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2F1546851A5AF6E100C9AF01 /* Base */,
+				2FBC75781A5ED8AB003825F6 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -367,8 +374,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				2F15468A1A5AF6E100C9AF01 /* Base */,
+				2FBC75791A5ED8AB003825F6 /* es */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		2FBC757C1A5ED8E6003825F6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FBC757B1A5ED8E6003825F6 /* es */,
+			);
+			name = Localizable.strings;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
