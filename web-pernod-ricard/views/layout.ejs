@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Historial - Pernod Ricard</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+      <!-- Add to homescreen for Chrome on Android -->
+      <meta name="mobile-web-app-capable" content="yes">
+      <link rel="icon" sizes="192x192" href="/chrome-touch-icon-192x192.png">
+
+      <!-- Add to homescreen for Safari on iOS -->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black">
+      <meta name="apple-mobile-web-app-title" content="Pernod Ricard Historial">
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+      <!-- Tile icon for Win8 (144x144 + tile color) -->
+      <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+      <meta name="msapplication-TileColor" content="#295a88">
+
+
+    <!--
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `<link>` tags, or asynchronously
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage
+        of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+        By default, stylesheets from your `assets/styles` folder are included
+        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+        are supported. In production, your styles will be minified and concatenated into
+        a single file.
+
+        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/plugins/animate.min.css">
+    <link rel="stylesheet" href="/styles/plugins/boostrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/styles/plugins/boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/plugins/boostrapv3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/plugins/bootstrap-datepicker/css/datepicker.css">
+    <link rel="stylesheet" href="/styles/plugins/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" href="/styles/plugins/bootstrap-select2/select2-bootstrap.css">
+    <link rel="stylesheet" href="/styles/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="/styles/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="/styles/plugins/datatables-responsive/css/datatables.responsive.css">
+    <link rel="stylesheet" href="/styles/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/plugins/jquery-datatable/media/css/jquery.dataTables.fixedColumns.min.css">
+    <link rel="stylesheet" href="/styles/plugins/jquery-datatable/media/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/styles/plugins/jquery-metrojs/MetroJs.min.css">
+    <link rel="stylesheet" href="/styles/plugins/jquery-nestable/jquery.nestable.min.css">
+    <link rel="stylesheet" href="/styles/plugins/jquery-scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="/styles/plugins/pace/pace-theme-flash.css">
+    <link rel="stylesheet" href="/styles/plugins/switchery/css/switchery.min.css">
+    <link rel="stylesheet" href="/styles/editor.css">
+    <link rel="stylesheet" href="/styles/pages-icons.css">
+    <link rel="stylesheet" href="/styles/pages.css">
+    <link rel="stylesheet" href="/styles/windows.chrome.fix.css">
+    <!--STYLES END-->
+    <!--[if lte IE 9]>
+        <link href="/styles/ie9.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <script type="text/javascript">
+    window.onload = function()
+    {
+      // fix for windows 8
+      if (navigator.appVersion.indexOf("Windows NT 6.2") != -1)
+        document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="/styles/windows.chrome.fix.css" />'
+    }
+    </script>
+  </head>
+
+  <body>
+    <%- body %>
+
+    <!--
+        Client-side Templates
+        ========================
+
+        HTML templates are important prerequisites of modern, rich client applications.
+        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+        that you load these templates client-side.
+
+        By default, your Gruntfile is configured to automatically load and precompile
+        client-side JST templates in your `assets/templates` folder, then
+        include them here automatically (between TEMPLATES and TEMPLATES END).
+
+        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+
+            + Import templates from other directories
+            + Use a different template engine (handlebars, jade, dust, etc.)
+            + Internationalize your client-side templates using a server-side
+              stringfile before they're served.
+    -->
+
+    <!--TEMPLATES-->
+    
+    <!--TEMPLATES END-->
+
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can always bring in JS files manually with `script` tags, or asynchronously
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can
+      take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+      By default, files in your `assets/js` folder are included here
+      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+      CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+      and concatenated into a single file.
+
+      To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+      For example, here are a few things you could do:
+
+          + Change the order of your scripts
+          + Import scripts from other directories
+          + Use a different preprocessor, like TypeScript
+
+    -->
+
+    <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/plugins/jquery/jquery-1.11.1.min.js"></script>
+    <script src="/js/dependencies/plugins/boostrap/js/bootstrap.min.js"></script>
+    <script src="/js/dependencies/plugins/boostrapv3/js/bootstrap.min.js"></script>
+    <script src="/js/dependencies/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/js/dependencies/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js"></script>
+    <script src="/js/dependencies/plugins/bootstrap-select2/select2.min.js"></script>
+    <script src="/js/dependencies/plugins/classie/classie.js"></script>
+    <script src="/js/dependencies/plugins/jquery-actual/jquery.actual.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-bez/jquery.bez.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-datatable/media/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-datatable/media/js/jquery.dataTables.tableTools.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-datatable/media/js/jquery.dataTablesBootstrap.js"></script>
+    <script src="/js/dependencies/plugins/jquery-datatables-responsive/js/datatables.responsive.js"></script>
+    <script src="/js/dependencies/plugins/jquery-datatables-responsive/js/lodash.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-ios-list/jquery.ioslist.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-isotope/isotope.pkgd.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-menuclipper/jquery.actual.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-menuclipper/jquery.menuclipper.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-unveil/jquery.unveil.min.js"></script>
+    <script src="/js/dependencies/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="/js/dependencies/plugins/modernizr.custom.js"></script>
+    <script src="/js/dependencies/plugins/velocity/velocity.min.js"></script>
+    <script src="/js/pages.js"></script>
+    <script src="/js/scripts.js"></script>
+    <!--SCRIPTS END-->
+
+
+  </body>
+</html>
