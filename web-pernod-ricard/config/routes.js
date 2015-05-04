@@ -38,7 +38,9 @@ module.exports.routes = {
 
   '/search': 'PlayerController.search',
 
-  'POST /player': 'PlayerController.create'
+  'POST /player': 'PlayerController.create',
+
+  'GET /ranking': 'PlayerController.initRanking'
 
   //'/delete': 'PlayerController.delete'
 
