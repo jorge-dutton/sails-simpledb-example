@@ -34,10 +34,8 @@ module.exports = {
     initRanking: function(req, res) {
         var Firebase = require("firebase");
 
-        // Get a reference to our posts
         var ref = new Firebase("https://pernod-ricard.firebaseio.com/");
-        // Retrieve new posts as they are added to Firebase
-        ref.child('users').on("value", function(snapshot) {
+        ref.child('users').orderByValue().once("value", function(snapshot) {
             return res.json({ ranking: snapshot.val() });
         });
 

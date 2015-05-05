@@ -109,6 +109,16 @@
         table.dataTable(settings);
     }
 
+    //Formats d to MM/dd/yyyy HH:mm:ss format
+    function formatDate(d){
+        function addZero(n){
+            return n < 10 ? '0' + n : '' + n;
+        }
+
+        return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " +
+        addZero(d.getHours()) + ":" + addZero(d.getMinutes()) + ":" + addZero(d.getMinutes());
+    }
+
     // Initialize ranking table
     var initRankingTable = function(data) {
         var table = $('#rankingTable'),
@@ -117,20 +127,24 @@
 
         if (data) {
             var index = 0,
+
             array = $.map(data, function(value, index) {
                 return [value];
             });
 
-            array = array.sort(function(a,b){return b.score - a.score});
+            array = array.sort(function(a, b) {
+                return b.score - a.score
+                || moment(a.lastUpdate, "YYYY:MM:DD:HH:mm:ss")._d  - moment(b.lastUpdate, "YYYY:MM:DD:HH:mm:ss")._d;
+            });
 
             $.each(array, function(key, value) {
                 var player = new Array();
                 index ++;
-
                 player[0] = index;
                 player[1] = value.name + ' ' + value.surname;
                 player[2] = value.league;
-                player[3] = value.score;
+                player[3] = moment(value.lastUpdate, "YYYY:MM:DD:HH:mm:ss").format('DD/MM/YYYY, HH:mm:ss');
+                player[4] = value.score;
                 players.push(player);
             });
         }
@@ -151,9 +165,10 @@
                 {"bSortable": true},
                 {"bSortable": false},
                 {"bSortable": false},
+                {"bSortable": false},
                 {"bSortable": false}
             ],
-            "iDisplayLength": $.Pages.isVisibleXs() ? 10 : 20,
+            "iDisplayLength": 20,
             "oTableTools": {
                 "sSwfPath": "js/dependencies/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
                 "aButtons": [{
