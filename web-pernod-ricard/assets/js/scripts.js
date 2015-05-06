@@ -37,6 +37,7 @@
                     }
 
                     player.push(attr.Value);
+
                 });
                 players.push(player);
             });
@@ -81,42 +82,9 @@
                     "sExtends": "copy",
                     "sButtonText": "<i class='fa fa-copy'></i>"
                 }]
-            },
-            fnDrawCallback: function(oSettings) {
-                $('.export-options-container').append($('.exportOptions'));
-
-                $('#ToolTables_tableWithExportOptions_0').tooltip({
-                    title: 'Export as CSV',
-                    container: 'body'
-                });
-
-                $('#ToolTables_tableWithExportOptions_1').tooltip({
-                    title: 'Export as Excel',
-                    container: 'body'
-                });
-
-                $('#ToolTables_tableWithExportOptions_2').tooltip({
-                    title: 'Export as PDF',
-                    container: 'body'
-                });
-
-                $('#ToolTables_tableWithExportOptions_3').tooltip({
-                    title: 'Copy data',
-                    container: 'body'
-                });
             }
         };
         table.dataTable(settings);
-    }
-
-    //Formats d to MM/dd/yyyy HH:mm:ss format
-    function formatDate(d){
-        function addZero(n){
-            return n < 10 ? '0' + n : '' + n;
-        }
-
-        return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " +
-        addZero(d.getHours()) + ":" + addZero(d.getMinutes()) + ":" + addZero(d.getMinutes());
     }
 
     // Initialize ranking table
@@ -184,29 +152,6 @@
                     "sExtends": "copy",
                     "sButtonText": "<i class='fa fa-copy'></i>"
                 }]
-            },
-            fnDrawCallback: function(oSettings) {
-                $('.export-options-container').append($('.exportOptions'));
-
-                $('#ToolTables_tableWithExportOptions_0').tooltip({
-                    title: 'Export as CSV',
-                    container: 'body'
-                });
-
-                $('#ToolTables_tableWithExportOptions_1').tooltip({
-                    title: 'Export as Excel',
-                    container: 'body'
-                });
-
-                $('#ToolTables_tableWithExportOptions_2').tooltip({
-                    title: 'Export as PDF',
-                    container: 'body'
-                });
-
-                $('#ToolTables_tableWithExportOptions_3').tooltip({
-                    title: 'Copy data',
-                    container: 'body'
-                });
             }
         };
         table.dataTable(settings);
@@ -231,7 +176,7 @@
             success: function( data ) {
                 initRecordTable(data.players.Items);
             }
-        })
+        });
     }
 
     var initData = function() {
@@ -266,6 +211,16 @@
     $('#btn-buscar').click(function(e) {
         e.preventDefault();
         submitSearch();
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('table').each(function() {
+            var oTableTools = TableTools.fnGetInstance(this);
+
+            if (oTableTools && oTableTools.fnResizeRequired()) {
+                oTableTools.fnResizeButtons();
+            }
+        });
     });
 
 })(window.jQuery);
