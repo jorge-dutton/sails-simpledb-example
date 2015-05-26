@@ -34,6 +34,8 @@
                         player[7] = attr.Value;
                     } else if (attr.Name == 'Fecha') {
                         player[8] = attr.Value;
+                    } else if (attr.Name == 'Respuesta') {
+                        player[9] = attr.Value;
                     }
 
                     player.push(attr.Value);
@@ -63,6 +65,7 @@
                 {"bSortable": true},
                 {"bSortable": true},
                 {"bSortable": true},
+                {"bSortable": false},
                 {"bSortable": false},
                 {"bSortable": false}
             ],
@@ -120,14 +123,17 @@
         settings = {
             "data": players,
             "dom": '<"table-responsive"<"pr-table-info pull-right"i><"export-options-container pull-right m-b-5"T><"clear-fix"><"center-margin full-width"t>><"center-margin full-width text-center"p>',
-            "searching": false,
+            "searching": true,
             "sPaginationType": "bootstrap",
             "destroy": true,
             "scrollCollapse": true,
             "oLanguage": {
                 "sLengthMenu": "_MENU_ ",
                 "sInfo": "Mostrando <b>_START_</b> a <b>_END_</b> de _TOTAL_ resultados",
-                "sEmptyTable": "No hay datos disponibles."
+                "sEmptyTable": "No hay datos disponibles.",
+                "sZeroRecords": "No hay datos disponibles.",
+                "sInfoFiltered": "(_MAX_ resultados sin filtros)",
+                "sInfoEmpty": "0 resultados"
             },
             "aoColumns": [
                 {"bSortable": true},
@@ -155,6 +161,13 @@
             }
         };
         table.dataTable(settings);
+        
+        $('#league-ranking').on('change', function () {
+          var filter = $(this).val();
+          table.DataTable().column(2)
+            .search(filter ? '^' + filter + '$' : '', true, false)
+            .draw();
+        });
     }
 
     var initDatePicker = function() {

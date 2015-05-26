@@ -165,6 +165,16 @@ module.exports = {
                             Name: 'Fecha',
                             Value: req.param('date'),
                             Replace: true || false
+                        },
+                        {
+                            Name: 'Email',
+                            Value: req.param('email'),
+                            Replace: true || false
+                        },
+                        {
+                            Name: 'Contrasena',
+                            Value: req.param('password'),
+                            Replace: true || false
                         }
                     ],
                     Name: new Date().getTime().toString()

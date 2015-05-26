@@ -236,9 +236,10 @@
                                                 <th style="width:25%">DESCRIPCIÓN</th>
                                                 <th style="width:8%">DESEMPEÑO</th>
                                                 <th style="width:8%">COMPROMISO</th>
-                                                <th style="width:8%">DÍA</th>
-                                                <th style="width:8%">HORA</th>
+                                                <th style="width:4%">DÍA</th>
+                                                <th style="width:4%">HORA</th>
                                                 <th style="width:8%">FECHA</th>
+                                                <th style="width:8%">RESPUESTA</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -253,6 +254,30 @@
                         </div>
 
                         <div class="tab-pane" id="tab2Ranking">
+                            <!-- START FILTER FORM PANEL -->
+                            <div class="panel-default no-border row">
+                                <div class="panel-heading">
+                                    <div class="panel-title fs-12">
+                                        FILTRAR POR:
+                                    </div>
+                                </div>
+                                <div class="p-t-15">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="league">LIGA</label>
+                                            <br>
+                                            <select name="league-ranking" id="league-ranking" class="form-control">
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="Pernod Ricard España">Pernod Ricard España</option>
+                                                <option value="Pernod Ricard Winemakers">Pernod Ricard Winemakers</option>
+                                                <option value="Ricardo en América">Ricardo en América</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <!-- END PANEL -->
                             <div class="panel-default no-border row">
                                 <div class="panel-heading">
                                     <div class="panel-title fs-12">
