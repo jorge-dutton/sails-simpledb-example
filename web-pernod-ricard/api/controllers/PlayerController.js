@@ -16,7 +16,7 @@ module.exports = {
         var simpledb = new AWS.SimpleDB();
 
         var params = {
-            SelectExpression: 'select Jugador, Liga, Categoria, Descripcion, Puntos_Desempeno, Puntos_Compromiso, Dia, Hora, Fecha from logpernodricard',
+            SelectExpression: 'select Jugador, Liga, Categoria, Descripcion, Puntos_Desempeno, Puntos_Compromiso, Dia, Hora, Fecha, Respuesta from logpernodricard',
             ConsistentRead: true
         };
 
@@ -164,6 +164,11 @@ module.exports = {
                         {
                             Name: 'Fecha',
                             Value: req.param('date'),
+                            Replace: true || false
+                        },
+                        {
+                            Name: 'Respuesta',
+                            Value: req.param('answer'),
                             Replace: true || false
                         },
                         {
