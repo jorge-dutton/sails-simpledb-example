@@ -36,11 +36,17 @@
                         player[8] = attr.Value;
                     } else if (attr.Name == 'Respuesta') {
                         player[9] = attr.Value;
+                    } else if (attr.Name == 'Email') {
+                        player[10] = attr.Value;
+                    } else if (attr.Name == 'Contrasena') {
+                        player[11] = attr.Value;
                     }
-
-                    player.push(attr.Value);
-
                 });
+                if (player.length < 12) {
+                  for (var i=player.length; i<12; i++) {
+                    player[i] = '';
+                  }
+                } 
                 players.push(player);
             });
         }
@@ -52,6 +58,7 @@
             "sPaginationType": "bootstrap",
             "destroy": true,
             "scrollCollapse": true,
+            "scrollX": true,
             "oLanguage": {
                 "sLengthMenu": "_MENU_ ",
                 "sInfo": "Mostrando <b>_START_</b> a <b>_END_</b> de _TOTAL_ resultados",
@@ -67,7 +74,9 @@
                 {"bSortable": true},
                 {"bSortable": false},
                 {"bSortable": false},
-                {"bSortable": false}
+                {"bSortable": false},
+                {"bSortable": false},
+                {"bSortable": false }
             ],
             "iDisplayLength": $.Pages.isVisibleXs() ? 10 : 20,
             "oTableTools": {

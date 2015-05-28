@@ -16,7 +16,7 @@ module.exports = {
         var simpledb = new AWS.SimpleDB();
 
         var params = {
-            SelectExpression: 'select Jugador, Liga, Categoria, Descripcion, Puntos_Desempeno, Puntos_Compromiso, Dia, Hora, Fecha, Respuesta from logpernodricard',
+            SelectExpression: 'select Jugador, Liga, Categoria, Descripcion, Puntos_Desempeno, Puntos_Compromiso, Dia, Hora, Fecha, Respuesta, Email, Contrasena from logpernodricard',
             ConsistentRead: true
         };
 
