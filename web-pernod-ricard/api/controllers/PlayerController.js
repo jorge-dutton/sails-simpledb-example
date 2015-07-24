@@ -8,7 +8,8 @@
 module.exports = {
 
 	init: function(req, res) {
-        var AWS = require('aws-sdk');
+        var AWS = require('aws-sdk'),
+            resultItems = [];
 
         AWS.config.update({accessKeyId: sails.config.aws.read.accessKeyId, secretAccessKey: sails.config.aws.read.secretKey});
         AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
@@ -19,15 +20,25 @@ module.exports = {
             SelectExpression: 'select Jugador, Liga, Categoria, Descripcion, Puntos_Desempeno, Puntos_Compromiso, Dia, Hora, Fecha, Respuesta, Email, Contrasena from logpernodricard',
             ConsistentRead: true
         };
-
-        simpledb.select(params, function(err, data) {
+        var selectAllData = function (err, data) {
             if (err) {
                 console.log(err);
                 return res.json({ players: {} });
             } else {
-                return res.json({ players: data });
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+                    return res.json({ players: data }); 
+                }
             }
-        });
+        };
+
+        simpledb.select(params, selectAllData);
 
     },
 
@@ -46,7 +57,8 @@ module.exports = {
             result,
             params = {},
             sWhere = ' where ',
-            query = "select * from logpernodricard";
+            query = "select * from logpernodricard",
+            resultItems = [];
 
             AWS.config.update({accessKeyId: sails.config.aws.read.accessKeyId, secretAccessKey: sails.config.aws.read.secretKey});
             AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
@@ -92,16 +104,26 @@ module.exports = {
             SelectExpression: query,
             ConsistentRead: true || false
         };
-
-        result = simpledb.select(params, function (err, data) {
+        
+        var selectAllData = function (err, data) {
             if (err) {
-                //console.log('error ' + err + query);
-                return res.json({players: {}});
+                console.log(err);
+                return res.json({ players: {} });
             } else {
-                //console.log('OK ' + query);
-                return res.json({players: data});
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+                    return res.json({ players: data }); 
+                }
             }
-        });
+        };
+        
+        result = simpledb.select(params, selectAllData);
 
     },
 
