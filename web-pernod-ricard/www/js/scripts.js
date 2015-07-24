@@ -64,7 +64,6 @@
                 "sInfo": "Mostrando <b>_START_</b> a <b>_END_</b> de _TOTAL_ resultados",
                 "sEmptyTable": "No hay datos disponibles."
             },
-            "bProcessing": true,
             "aoColumns": [
                 {"bSortable": true},
                 {"bSortable": true},
@@ -97,6 +96,9 @@
                 }]
             }
         };
+        if (!data) {
+            settings.oLanguage.sEmptyTable = '<img src="/img/ajax-loader.gif" alt="Cargando" /><br> Espere, por favor...';
+        }
         table.dataTable(settings);
     }
 
@@ -221,14 +223,13 @@
             }
         });
 
-
     }
 
 
     // Initialize
     initData();
-    initRecordTable({});
-    initRankingTable({});
+    initRecordTable();
+    initRankingTable();
     initDatePicker();
 
     $('#btn-buscar').click(function(e) {
