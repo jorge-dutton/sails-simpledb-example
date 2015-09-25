@@ -10,9 +10,12 @@
     var initRecordTable = function(data) {
         var table = $('#recordTable'),
             players = new Array(),
+            leagues = [],
+            leagueSelect = $('#league'),
             settings = {};
 
         if (data) {
+          
             $.each(data, function( key, value ) {
                 var player = new Array();
                 $.each(value.Attributes, function( key, attr ) {
@@ -20,6 +23,9 @@
                         player[0] = attr.Value;
                     } else if (attr.Name == 'Liga') {
                         player[1] = attr.Value;
+                        if (leagues.indexOf(attr.Value) === -1 && attr.Value !== "") {
+                          leagues.push(attr.Value);
+                        }
                     } else if (attr.Name == 'Categoria') {
                         player[2] = attr.Value;
                     } else if (attr.Name == 'Descripcion') {
@@ -49,6 +55,13 @@
                 } 
                 players.push(player);
             });
+            if (leagueSelect.data('loaded') !== true) {
+              for (var i=0, ll = leagues.length; i < ll; i++) {
+                leagueSelect.append('<option value="'+leagues[i]+'">'+leagues[i]+'</option>');
+              }
+              leagueSelect.data('loaded', true);
+              $('#league-ranking').html(leagueSelect.html());
+            }
         }
 
         settings = {
