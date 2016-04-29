@@ -1,0 +1,151 @@
+
+<!-- START FILTER FORM PANEL -->
+<div class="panel-default no-border row">
+    <div class="panel-heading">
+        <div class="panel-title fs-12">
+            FILTRAR POR:
+        </div>
+    </div>
+    <div class="p-t-15">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="league">LIGA</label>
+                <br>
+                <select name="league-leagueManagement" id="league-leagueManagement" class="form-control">
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="col-md-3 m-t-25 text-right">
+          <button id="btn-chargeUsers" type="submit" class="btn btn-primary btn-cons">CARGA USUARIOS</button>
+        </div> -->
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- END PANEL -->
+<div class="panel-default no-border row">
+    <div class="panel-heading">
+        <div class="panel-title fs-12">
+            LIGAS:
+        </div>
+    </div>
+
+    <div class="m-t-30 p-b-30 table--container">
+      <div class="col-md-2  new-item-button--container">
+        <button class="btn btn-default btn-cons new-item-button" type="button" name="button"  data-toggle="modal" data-target="#crateLeagueModal">
+          <i class='fa fa-plus'></i>
+          Nueva Liga
+        </button>
+      </div>
+        <table class="table table-hover" id="leaguesTable">
+            <thead>
+                <tr>
+                    <th style="width:20%">LIGA</th>
+                    <th style="width:20%">FECHA INICIO</th>
+                    <th style="width:20%">FECHA FIN</th>
+                    <th style="width:10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+        </table>
+
+    </div>
+<!-- END PANEL -->
+</div>
+
+<!-- START CREATION MODAL -->
+<section id="crateLeagueModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nueva Liga</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="create-league-form" method="POST" role="form" class="row" action="/league/">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>NOMBRE DE LIGA</label>
+                    <input name="name" type="text" class="form-control ">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>FECHA INICIO</label>
+
+                    <div id="new-league-init-date" class="input-group date datepicker-component">
+                        <input name="init-date" type="text" data-format="dd/MM/yyyy"  class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                  <label>FECHA FIN</label>
+                  <div id="new-league-end-date" class="input-group date datepicker-component">
+                      <input name="end-date" type="text" data-format="dd/MM/yyyy" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-3 m-t-25 text-right">
+                <button id="btn-create-league" type="submit" class="btn btn-primary btn-cons">EDITAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!-- END CREATION MODAL -->
+
+<!--START EDITION MODAL -->
+<section id="editLeagueModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar Liga</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="create-league-form" method="POST" role="form" class="row" action="/league/">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>NOMBRE DE LIGA</label>
+                    <input name="name" type="text" class="form-control ">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>FECHA INICIO</label>
+
+                    <div id="new-league-init-date" class="input-group date datepicker-component">
+                        <input name="init-date" type="text"  class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                  <label>FECHA FIN</label>
+                  <div id="new-league-end-date" class="input-group date datepicker-component">
+                      <input name="end-date" type="text"  class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-3 m-t-25 text-right">
+                <button id="btn-create-league" type="submit" class="btn btn-primary btn-cons">EDITAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!--END EDITION MODAL -->

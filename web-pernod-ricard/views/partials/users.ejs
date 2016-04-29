@@ -1,1 +1,212 @@
-FUNCIONA!!
+
+<!-- START FILTER FORM PANEL -->
+<div class="panel-default no-border row">
+    <div class="panel-heading">
+        <div class="panel-title fs-12">
+            FILTRAR POR:
+        </div>
+    </div>
+    <div class="p-t-15">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="league">NOMBRE</label>
+                <br>
+                <input type="text" name="name-userManagement" id="name-userManagement" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="league">APELLIDOS</label>
+                <br>
+                <input type="text" name="surname-userManagement" id="surname-userManagement" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="league">LIGA</label>
+                <br>
+                <select name="league-userManagement" id="league-userManagement" class="form-control">
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="col-md-3 m-t-25 text-right">
+          <button id="btn-chargeUsers" type="submit" class="btn btn-primary btn-cons">CARGA USUARIOS</button>
+        </div> -->
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- END PANEL -->
+<div class="panel-default no-border row">
+    <div class="panel-heading">
+        <div class="panel-title fs-12">
+            USUARIOS:
+        </div>
+    </div>
+
+    <div class="m-t-30 p-b-30 table--container">
+      <div class="col-md-2  new-item-button--container">
+        <button class="btn btn-default btn-cons new-item-button"  name="button" data-toggle="modal" data-target="#createUserModal">
+          <i class='fa fa-plus'></i>
+          Nuevo Usuario
+        </button>
+      </div>
+        <table class="table table-hover" id="usersTable">
+            <thead>
+                <tr>
+                    <th style="width:5%">NOMBRE</th>
+                    <th style="width:18%">APELLIDOs</th>
+                    <th style="width:10%">LIGA</th>
+                    <th style="width:8%">PASSWORD</th>
+                    <th style="width:8%">EMAIL</th>
+                    <th style="width:8%">EMAIL FIJO</th>
+                    <th style="width:5%"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+        </table>
+
+    </div>
+<!-- END PANEL -->
+</div>
+
+<!-- START CREATION MODAL -->
+<section id="createUserModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nuevo Usuario</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="create-user-form" method="POST" role="form" class="row" action="/user">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>NOMBRE</label>
+                    <input name="name" type="text" class="form-control ">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>APELLIDOS</label>
+                    <input name="name" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input name="name" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>EMAIL</label>
+                    <input name="name" type="email" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>EMAIL FIJO</label>
+                    <input name="name" type="email" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>EMAIL JEFE</label>
+                    <input name="name" type="email" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="league">LIGA</label>
+                    <br>
+                    <select name="league-userManagement" id="league-userManagement" class="form-control">
+                        <option value="">Seleccione una opción</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 m-t-25 text-right">
+                <button id="btn-create-user" type="submit" class="btn btn-primary btn-cons">CREAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!-- END CREATION MODAL -->
+
+<!-- START EDIT MODAL -->
+<section id="editUserModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar Usuario</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="edit-user-form" method="POST" role="form" class="row" action="/user">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>NOMBRE</label>
+                    <input id="edit-name-userManagement" name="name" type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>APELLIDOS</label>
+                    <input id="edit-surname-userManagement" name="surname" type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input id="edit-password-userManagement" name="password" type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>EMAIL</label>
+                    <input id="edit-user_email-userManagement" name="user_email" type="email" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>EMAIL FIJO</label>
+                    <input id="edit-official_email-userManagement" name="official_email" type="email" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>EMAIL JEFE</label>
+                    <input id="edit-boss_email-userManagement" name="boss_email" type="email" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="league">LIGA</label>
+                    <br>
+                    <select name="league" id="edit-league-userManagement" class="form-control">
+                        <option value="">Seleccione una opción</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 m-t-25 text-right">
+                <button id="btn-create-user" type="submit" class="btn btn-primary btn-cons">EDITAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!-- END EDIT MODAL -->

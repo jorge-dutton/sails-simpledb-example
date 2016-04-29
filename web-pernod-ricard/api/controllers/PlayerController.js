@@ -33,7 +33,7 @@ module.exports = {
                     simpledb.select(params, selectAllData);
                 } else {
                     data.Items = resultItems;
-                    return res.json({ players: data }); 
+                    return res.json({ players: data });
                 }
             }
         };
@@ -104,7 +104,7 @@ module.exports = {
             SelectExpression: query,
             ConsistentRead: true || false
         };
-        
+
         var selectAllData = function (err, data) {
             if (err) {
                 console.log(err);
@@ -118,11 +118,11 @@ module.exports = {
                     simpledb.select(params, selectAllData);
                 } else {
                     data.Items = resultItems;
-                    return res.json({ players: data }); 
+                    return res.json({ players: data });
                 }
             }
         };
-        
+
         result = simpledb.select(params, selectAllData);
 
     },
@@ -247,4 +247,3 @@ module.exports = {
 
 
 };
-

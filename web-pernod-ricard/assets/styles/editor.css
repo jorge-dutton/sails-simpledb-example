@@ -8,3 +8,26 @@ body{
 	color:#62605a;
 	font-size: 13.5px;
 }
+
+.btn.datatable-button {
+	width: 30px;
+	height: 30px;
+	padding: 6px;
+	padding-top: 5px;
+}
+.datatable-button--container {
+	text-align: center;
+}
+.table--container {
+	position: relative;
+}
+
+.new-item-button--container {
+	position: absolute;
+	right: 185px;
+	z-index: 1;
+}
+
+.new-item-button {
+	width: 150px;
+}
