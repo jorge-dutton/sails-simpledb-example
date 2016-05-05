@@ -1,0 +1,188 @@
+
+<!-- START FILTER FORM PANEL -->
+<div class="panel-default no-border row">
+    <div class="alert alert-warning" role="alert">
+     <button type="button" class="close close-alert-warning"  aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+     </button>
+     <strong>Atención!</strong> Cuando una liga esté activa no podrá ser borrada ni editada.
+    </div>
+    <div class="panel-heading">
+        <div class="panel-title fs-12">
+            FILTRAR POR:
+        </div>
+    </div>
+    <div class="p-t-15">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="league">LIGA</label>
+                <br>
+                <select name="league-leagueManagement" id="league-leagueManagement" class="form-control">
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- END PANEL -->
+<div class="panel-default no-border row">
+    <div class="panel-heading">
+        <div class="panel-title fs-12">
+            LIGAS:
+        </div>
+    </div>
+
+    <div class="m-t-30 p-b-30 table--container">
+      <div class="col-md-2  new-item-button--container">
+        <button class="btn btn-default btn-cons new-item-button" type="button" name="button"  data-toggle="modal" data-target="#createLeagueModal">
+          <i class='fa fa-plus'></i>
+          Nueva Liga
+        </button>
+      </div>
+        <table class="table table-hover" id="leaguesTable">
+            <thead>
+                <tr>
+                    <th style="width:20%">LIGA</th>
+                    <th style="width:20%">FECHA INICIO</th>
+                    <th style="width:20%">FECHA FIN</th>
+                    <th style="width:10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+        </table>
+
+    </div>
+<!-- END PANEL -->
+</div>
+
+<!-- START CREATION MODAL -->
+<section id="createLeagueModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-md custom-modal-margin">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nueva Liga</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="create-league-form" role="form" class="row" method="post" action="">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">NOMBRE DE LIGA</label>
+                    <input name="league_name" id="create-league_name-leagueManagement" type="text" class="form-control " data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">FECHA INICIO</label>
+
+                    <div id="new-league-init-date" class="input-group date datepicker-component">
+                     <input name="init_date" id="create-init_date-leagueManagement" type="text" data-format="dd/MM/yyyy"  class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label class="control-label">FECHA FIN</label>
+                  <div id="new-league-end-date" class="input-group date datepicker-component">
+                    <input name="end_date" id="create-end_date-leagueManagement" type="text" data-format="dd/MM/yyyy" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-12 m-t-25 text-right form-group">
+                <button id="btn-create-league" type="button" class="btn btn-primary btn-cons">CREAR</button>
+                <button type="button" class="btn btn-default btn-cons" data-dismiss="modal">CANCELAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!-- END CREATION MODAL -->
+
+<!--START EDITION MODAL -->
+<section id="editLeagueModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-md custom-modal-margin">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar Liga</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="edit-league-form" method="POST" role="form" class="row" >
+          <input id="edit-item_name-leagueManagement" name="item_name" type="hidden" class="form-control">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>NOMBRE DE LIGA</label>
+                    <input name="league_name" id="edit-league_name-leagueManagement" type="text" class="form-control white-tooltip" data-toggle="tooltip" data-placement="top" title="No será posible modificar el NOMBRE de la liga si ésta permanece activa" data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>FECHA INICIO</label>
+
+                    <div id="new-league-init-date" class="input-group date datepicker-component">
+                        <input name="init_date" id="edit-init_date-leagueManagement" type="text"  class="form-control white-tooltip" data-toggle="tooltip" data-placement="top" title="No será posible modificar la FECHA DE INICIO de la liga si ésta permanece activa"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label>FECHA FIN</label>
+                  <div id="new-league-end-date" class="input-group date datepicker-component">
+                      <input name="end_date"  id="edit-end_date-leagueManagement"type="text"  class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-12 m-t-25 text-right">
+                <button id="btn-edit-league" type="button" class="btn btn-primary btn-cons">EDITAR</button>
+                <button type="button" class="btn btn-default btn-cons" data-dismiss="modal">CANCELAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!--END EDITION MODAL -->
+
+<!-- START DELETE MODAL -->
+<section id="deleteLeagueModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-sm custom-modal-margin">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Borrar Liga</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="delete-league-form"  role="form" class="row" >
+          <input type="hidden" id="delete-item_name-leagueManagement" name="item_name"/>
+            <div class="col-md-12 text-center">
+              <h5>¿Desea borrar la liga seleccionada?</h5>
+            </div>
+            <div class="col-md-6 m-t-25 text-right">
+                <button id="btn-delete-league" type="button" class="btn btn-primary btn-cons">ACEPTAR</button>
+            </div>
+            <div class="col-md-6 m-t-25 text-right">
+                <button type="button" class="btn btn-default btn-cons" data-dismiss="modal">CANCELAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!-- END DELETE MODAL -->
