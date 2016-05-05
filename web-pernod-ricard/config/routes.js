@@ -42,15 +42,24 @@ module.exports.routes = {
 
   'GET /ranking': 'PlayerController.initRanking',
 
-  'POST /user': 'UserController.create',
+  'POST /createUser': 'UserController.createUser',
 
   'GET /user': 'UserController.init',
 
-  'POST /league': 'LeagueController.create',
+  'GET /usersByLeague' :'UserController.usersByLeague',
+
+  'POST /updateUser': 'UserController.updateUser',
+
+  'POST /deleteUser': 'UserController.deleteUser',
+
+  'POST /createLeague': 'LeagueController.createLeague',
 
   'GET /league': 'LeagueController.init',
 
-  'GET /leagueActives': 'LeagueController.leagueActives'
+  'POST /updateLeague': 'LeagueController.updateLeague',
+
+  'POST /deleteLeague': 'LeagueController.deleteLeague'
+
 
   //'/delete': 'PlayerController.delete'
 

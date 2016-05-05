@@ -46,7 +46,7 @@
 
     <div class="m-t-30 p-b-30 table--container">
       <div class="col-md-2  new-item-button--container">
-        <button class="btn btn-default btn-cons new-item-button"  name="button" data-toggle="modal" data-target="#createUserModal">
+        <button class="btn btn-default btn-cons new-item-button create-user--button"  id="" name="button" data-toggle="modal" data-target="#createUserModal">
           <i class='fa fa-plus'></i>
           Nuevo Usuario
         </button>
@@ -75,7 +75,7 @@
 
 <!-- START CREATION MODAL -->
 <section id="createUserModal" class="modal fade" role="dialog">
-  <article class="modal-dialog modal-lg">
+  <article class="modal-dialog custom-modal-size custom-modal-margin">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -83,58 +83,57 @@
         <h4 class="modal-title">Nuevo Usuario</h4>
       </div>
       <div class="modal-body">
-        <div class="p-t-15">
-          <form id="create-user-form" method="POST" role="form" class="row" action="/user">
-            <div class="col-md-5">
+          <form id="create-user-form" role="form" class="row"  data-parsley-validate="">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>NOMBRE</label>
-                    <input name="name" type="text" class="form-control ">
+                    <input id="create-name-userManagement" name="name" type="text" class="form-control"  data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>APELLIDOS</label>
-                    <input name="name" type="text" class="form-control">
+                    <input id="create-surname-userManagement" name="surname" type="text" class="form-control"  data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>PASSWORD</label>
-                    <input name="name" type="text" class="form-control">
+                    <input id="create-password-userManagement" name="password" type="text" class="form-control" data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>EMAIL</label>
-                    <input name="name" type="email" class="form-control">
+                    <input id="create-user_email-userManagement" name="user_email" type="email" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>EMAIL FIJO</label>
-                    <input name="name" type="email" class="form-control">
+                    <input id="create-official_email-userManagement" name="official_email" type="email" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>EMAIL JEFE</label>
-                    <input name="name" type="email" class="form-control">
+                    <input id="create-boss_email-userManagement" name="boss_email" type="email" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="league">LIGA</label>
                     <br>
-                    <select name="league-userManagement" id="league-userManagement" class="form-control">
+                    <select name="league" id="create-league-userManagement" class="form-control">
                         <option value="">Seleccione una opción</option>
                     </select>
                 </div>
             </div>
-            <div class="col-md-3 m-t-25 text-right">
+            <div class="col-md-12 m-t-25 text-right">
                 <button id="btn-create-user" type="submit" class="btn btn-primary btn-cons">CREAR</button>
+                <button type="button" class="btn btn-default btn-cons" data-dismiss="modal">CANCELAR</button>
             </div>
           </form>
-        </div>
       </div>
     </div>
 
@@ -144,7 +143,7 @@
 
 <!-- START EDIT MODAL -->
 <section id="editUserModal" class="modal fade" role="dialog">
-  <article class="modal-dialog modal-lg">
+  <article class="modal-dialog custom-modal-size custom-modal-margin">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -152,55 +151,88 @@
         <h4 class="modal-title">Editar Usuario</h4>
       </div>
       <div class="modal-body">
-        <div class="p-t-15">
-          <form id="edit-user-form" method="POST" role="form" class="row" action="/user">
-            <div class="col-md-5">
+          <form id="edit-user-form"  role="form" class="row" >
+           <input id="edit-item_name-userManagement" name="item_name" type="hidden" class="form-control">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>NOMBRE</label>
-                    <input id="edit-name-userManagement" name="name" type="text" class="form-control" required>
+                    <input id="edit-name-userManagement" name="name" type="text" class="form-control" data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>APELLIDOS</label>
-                    <input id="edit-surname-userManagement" name="surname" type="text" class="form-control" required>
+                    <input id="edit-surname-userManagement" name="surname" type="text" class="form-control" data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>PASSWORD</label>
-                    <input id="edit-password-userManagement" name="password" type="text" class="form-control" required>
+                    <input id="edit-password-userManagement" name="password" type="text" class="form-control" data-parsley-required-message="El campo no puede estar vacío" data-parsley-required="true">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>EMAIL</label>
-                    <input id="edit-user_email-userManagement" name="user_email" type="email" class="form-control" required>
+                    <input id="edit-user_email-userManagement" name="user_email" type="email" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>EMAIL FIJO</label>
                     <input id="edit-official_email-userManagement" name="official_email" type="email" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>EMAIL JEFE</label>
                     <input id="edit-boss_email-userManagement" name="boss_email" type="email" class="form-control">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="form-group">
+                    
                     <label for="league">LIGA</label>
                     <br>
-                    <select name="league" id="edit-league-userManagement" class="form-control">
+                    <select name="league" id="edit-league-userManagement" class="form-control white-tooltip" data-toggle="tooltip" data-placement="top" title="No será posible modificar la LIGA si ésta permanece activa">
                         <option value="">Seleccione una opción</option>
                     </select>
                 </div>
             </div>
-            <div class="col-md-3 m-t-25 text-right">
-                <button id="btn-create-user" type="submit" class="btn btn-primary btn-cons">EDITAR</button>
+            <div class="col-md-12 m-t-25 text-right">
+                <button id="btn-edit-user" type="submit" class="btn btn-primary btn-cons">EDITAR</button>
+                <button type="button" class="btn btn-default btn-cons" data-dismiss="modal">CANCELAR</button>
+            </div>
+          </form>
+      </div>
+    </div>
+
+  </article>
+</section>
+<!-- END EDIT MODAL -->
+
+<!-- START DELETE MODAL -->
+<section id="deleteUserModal" class="modal fade" role="dialog">
+  <article class="modal-dialog modal-sm custom-modal-margin">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Borrar Usuario</h4>
+      </div>
+      <div class="modal-body">
+        <div class="p-t-15">
+          <form id="delete-user-form"  role="form" class="row" >
+            <input id="delete-item_name-userManagement" name="item_name" type="hidden" class="form-control"/>
+             <div class="col-md-12 text-center">
+                <h5>¿Desea borrar el usuario seleccionado?</h5>
+            </div>
+
+            <div class="col-md-6 m-t-25 text-right">
+                <button id="btn-delete-user" type="button" class="btn btn-primary btn-cons">ACEPTAR</button>
+            </div>
+            <div class="col-md-6 m-t-25 text-right">
+                <button  type="button" class="btn btn-default btn-cons" data-dismiss="modal">CANCELAR</button>
             </div>
           </form>
         </div>
@@ -209,4 +241,5 @@
 
   </article>
 </section>
-<!-- END EDIT MODAL -->
+<!-- END DELETE MODAL -->
+
