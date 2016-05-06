@@ -1332,7 +1332,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 }
 
 .form-control .select2-choice .select2-arrow {
-    border-radius: 0 2px 2px 0;
+    border-radius: 0 2px 2px 0;   
 }
 
 .form-control.select2-container {
@@ -2356,6 +2356,51 @@ body{
 	color:#62605a;
 	font-size: 13.5px;
 }
+
+.btn.datatable-button {
+	width: 30px;
+	height: 30px;
+	padding: 6px;
+	padding-top: 5px;
+}
+.datatable-button--container {
+	text-align: center;
+}
+.table--container {
+	position: relative;
+}
+
+.new-item-button--container {
+	position: absolute;
+	right: 185px;
+	z-index: 1;
+}
+
+.new-item-button {
+	width: 150px;
+}
+
+.datepicker.dropdown-menu {
+	z-index: 9999!important;
+}
+.tooltip-arrow,
+.white-tooltip + .tooltip > .tooltip-inner {
+	border: 1px solid #F0F0F0;
+	background-color: #DAEFFD;
+	color: black;
+}
+.white-tooltip + .tooltip > .tooltip-arrow {background-color: white;}
+
+.custom-modal-size {
+	width:800px;
+}
+.custom-modal-margin {
+	margin: 100px auto;
+}
+.modal-dialog {
+	z-index: 9000
+}
+
 @font-face {
 	font-family: 'pages-icon';
 	src:url('../fonts/pages-icon/Pages-icon.eot?-u69vo5');
@@ -4375,7 +4420,7 @@ body {
   -webkit-font-feature-settings: "kern" 1;
   -moz-font-feature-settings: "kern" 1;
 }
-/* Headings
+/* Headings 
 ------------------------------------
 */
 h1,
@@ -4549,7 +4594,7 @@ hr.double {
 hr.dotted {
   border-style: dotted none none;
 }
-/* Font Sizes
+/* Font Sizes 
 ------------------------------------
 */
 .small-text {
@@ -4576,7 +4621,7 @@ hr.dotted {
 .light {
   font-weight: 300 !important;
 }
-/* Misc
+/* Misc 
 ------------------------------------
 */
 .logo {
@@ -4639,7 +4684,7 @@ hr.dotted {
 .bg-primary-lighter {
   background-color: #d4dee7;
 }
-/* Complete
+/* Complete 
 ------------------------------------
 */
 .bg-complete {
@@ -4657,7 +4702,7 @@ hr.dotted {
 .bg-complete-lighter {
   background-color: #daeffd;
 }
-/* Success
+/* Success 
 ------------------------------------
 */
 .bg-success {
@@ -4693,7 +4738,7 @@ hr.dotted {
 .bg-info-lighter {
   background-color: #d8dadc;
 }
-/* Danger
+/* Danger 
 ------------------------------------
 */
 .bg-danger {
@@ -4732,7 +4777,7 @@ hr.dotted {
 /* More Color Options
 ------------------------------------
 */
-/* Menu
+/* Menu 
 ------------------------------------
 */
 .bg-menu-dark {
@@ -4994,7 +5039,7 @@ hr.dotted {
     line-height: 17px;
   }
 }
-/* For Windows : Fixes
+/* For Windows : Fixes 
 ------------------------------------
 */
 .windows body,
@@ -5669,7 +5714,7 @@ Rounded buttons
   margin: 0;
   background: #fafafa;
   min-width: 50px;
-  z-index: 9999 !important;
+  z-index: 790;
 }
 .dropdown-menu .divider {
   background-color: #e6e6e6;
@@ -5967,7 +6012,7 @@ fieldset[disabled] .form-control {
   font-size: 18px;
   line-height: 22px;
 }
-/* Checkboxes and Radio buttons
+/* Checkboxes and Radio buttons 
 --------------------------------------------------
 */
 .radio,
@@ -6238,7 +6283,7 @@ fieldset[disabled] .form-control {
     width: 100%;
   }
 }
-/* Form Groups
+/* Form Groups 
 --------------------------------------------------
 */
 .form-group {
@@ -6742,7 +6787,7 @@ https://github.com/eternicode/bootstrap-datepicker
   text-shadow: none;
   border: 0;
 }
-/* Timepicker
+/* Timepicker 
 https://github.com/m3wolf/bootstrap3-timepicker
 */
 .bootstrap-timepicker-widget table td a i {
@@ -7919,7 +7964,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
 .nav-tabs.nav-tabs-right ~ .tab-content {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
-/* Tabs : Simple
+/* Tabs : Simple 
 ------------------------------------
 */
 .nav-tabs-simple {
@@ -8106,7 +8151,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
     font-size: 0.6em;
   }
 }
-/* Tabs : Fill-up
+/* Tabs : Fill-up 
 ------------------------------------
 */
 .nav-tabs-fillup {
@@ -8371,7 +8416,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   text-align: right;
   margin-right: 10px;
 }
-/* Thumbnail for icons and profile pics
+/* Thumbnail for icons and profile pics 
 ------------------------------------
 */
 .thumbnail-wrapper {
@@ -8512,14 +8557,14 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   background: transparent;
   border: none;
 }
-/* Scroll
+/* Scroll 
 ------------------------------------
 */
 .scrollable {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-/* Overides
+/* Overides 
 ------------------------------------
 */
 .no-padding {
@@ -8602,7 +8647,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
 .scroll-x-hidden {
   overflow-x: hidden !important;
 }
-/* Generic Padding Helpers
+/* Generic Padding Helpers 
 ------------------------------------
 */
 .p-t-5 {
@@ -9178,7 +9223,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
 .b-blank {
   border-color: #000;
 }
-/* Border Helpers
+/* Border Helpers 
 ------------------------------------
 */
 .b-a,
@@ -9443,7 +9488,7 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
 .col-bottom {
   vertical-align: bottom;
 }
-/* columns of same height styles
+/* columns of same height styles 
 ------------------------------------
 */
 .container-xs-height {
@@ -10499,8 +10544,11 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   color: #626262;
 }
 .theme .dataTables_wrapper .pr-table-info .dataTables_info {
-  margin-top: -60px;
-  padding-right: 10px;
+  position: absolute;
+  top: 20px;
+  padding: 0;
+  left: 5px;
+  margin: 0;
 }
 .theme #recordTable_paginate {
   float: none;
@@ -10515,8 +10563,11 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   color: #626262;
 }
 .dataTables_wrapper .pr-table-info .dataTables_info {
-  margin-top: -60px;
-  padding-right: 10px;
+  position: absolute;
+  top: 20px;
+  padding: 0;
+  left: 5px;
+  margin: 0;
 }
 #recordTable_paginate {
   float: none;

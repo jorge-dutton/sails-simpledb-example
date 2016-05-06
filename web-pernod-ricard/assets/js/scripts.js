@@ -224,16 +224,21 @@ $.ajaxSetup({
     filterTableOnSelectChange(table,"league-ranking",2)
     }
 
+  /**Params:
+   * @thisElement: elementButton Jquery selected ej: $(this)
+   */
     var getRowData = function(tableElement, thisElement) {
       return tableElement.row( thisElement.parents('tr') ).data();
     }
 
+  //Binds click element to edit button class 
     var editRowMenu = function (editButtonClass, tableElement, useData) {
       $("."+editButtonClass).on("click", function(event){
         var data = getRowData(tableElement, $(this));
         useData(data);
       });
     }
+  //Binds click element to delete button class 
     var deleteRow = function (deleteButtonClass, tableElement, useData) {
       $("."+deleteButtonClass).on("click", function(event){
          var data = getRowData(tableElement, $(this));
@@ -241,7 +246,7 @@ $.ajaxSetup({
       });
     }
 
-// Initialize users table
+  // Initialize users table
     var initUsersTable = function(data) {
       var table = $('#usersTable'),
           users = new Array(),
@@ -345,6 +350,7 @@ $.ajaxSetup({
       filterTable(table,"name-userManagement",0)
       filterTable(table,"surname-userManagement",1)
       filterTableOnSelectChange(table,"league-userManagement",2)
+
       editRowMenu("edit-user--button", tableElement, function(rowData) {
         var suitableLeaguesArray= setSuitableLeaguesSelect("edit-league-userManagement");
         $("#edit-name-userManagement").val(rowData[0])
@@ -354,6 +360,7 @@ $.ajaxSetup({
         $("#edit-official_email-userManagement").val(rowData[5])
         $("#edit-boss_email-userManagement").val(rowData[6])
         $("#edit-item_name-userManagement").val(rowData[7])
+
         $("#edit-league-userManagement").val(rowData[2])
         $("#edit-league-userManagement").attr('readonly',leagueNameIsInActivesLeaguesArray(suitableLeaguesArray, rowData[2]))
       });
@@ -447,7 +454,7 @@ $.ajaxSetup({
       })    
 
     }
-
+    //Returns an array with active leagues from a leagues array
     var getActiveLeagues = function(leagues) {
       var activesLeaguesArray = [];
       for(var i=0; i<leagues.length;i++){
@@ -458,7 +465,8 @@ $.ajaxSetup({
       }
       return activesLeaguesArray;
     }
-        //Return boolean value if  league is active
+
+    //Return boolean value if  league is active
     var leagueIsActive = function(league) {
       var isAnActiveleague = false,
           currentTimeStamp = new Date(),
@@ -471,11 +479,11 @@ $.ajaxSetup({
       return isAnActiveleague;
     }
 
-       
+    //Return true if the name of the league is in the array and this league is active   
     var leagueNameIsInActivesLeaguesArray = function(leaguesArray,leagueName) {
       var selectedLeague =[],
-          isLeagueActive;
-      if (leagueName == "") {
+          isLeagueActive= false;
+      if (leagueName == "" || leagueName == undefined) {
         isLeagueActive = false;
       }else {
         leaguesArray.forEach(function(league) {
@@ -483,8 +491,9 @@ $.ajaxSetup({
             selectedLeague = league;
           }
         })
-       return leagueIsActive(selectedLeague);
+      isLeagueActive = leagueIsActive(selectedLeague);
     }
+    return isLeagueActive;
   }
 
   var disableTableButtonIfLeagueIsActive = function (tableElement, activesLeagues) {
@@ -572,7 +581,7 @@ $.ajaxSetup({
           type: 'POST',
           url: '/createLeague/',
           data: $('#create-league-form').serialize(),
-          success: function() {
+          success: function(data) {
             if(data.error){
               $('.alert-danger').removeClass('hidden')
             }else if(executeOnSuccess){
@@ -587,7 +596,7 @@ $.ajaxSetup({
             type: 'POST',
             url: '/updateLeague/',
             data: $('#edit-league-form').serialize(),
-            success: function(){
+            success: function(data){
               if(data.error){
                 $('.alert-danger').removeClass('hidden')
               }else if(executeOnSuccess){
@@ -611,18 +620,12 @@ $.ajaxSetup({
     var initData = function() {
         var allLeagues =  getLeagues;
         allLeagues.success(function(data) {
-
             initLeaguesTable(data.leagues.Items);
-         
         });
 
         var initUsers = getUsers;
         initUsers.success(function(data) {
-          if(data.error){
-         //   $('.alert-danger').toggleClass('hidden')
-          }else{
             initUsersTable(data.users.Items);
-          }
         })
 
         jQuery.ajax({
@@ -630,7 +633,6 @@ $.ajaxSetup({
             url: '/player/',
             dataType: "json",
             success: function(data) {
-              console.log(data)
                 initRecordTable(data.players.Items);
             }
         });
@@ -752,7 +754,7 @@ $.ajaxSetup({
         dataType: "json"
     });
 
-    var getUsersFilteredByLeague =  function (oldleague, newLeague, executeOnSuccess) {
+    var getUsersFilteredByLeague =  function(oldleague, newLeague, executeOnSuccess) {
       if(oldleague!==newLeague){
          jQuery.ajax({
           type: 'GET',
@@ -765,6 +767,7 @@ $.ajaxSetup({
       }
     };            
 
+    //Edit button from the modal
     var bindEditLeagueButton = function (oldleague){
       $('#btn-edit-league').click(function (e) {
         e.preventDefault();
@@ -789,6 +792,7 @@ $.ajaxSetup({
       });          
     }
 
+    //Delete button from the modal
     var bindDeleteLeagueButton = function(league){
       $('#btn-delete-league').click(function (e) {
         getUsersFilteredByLeague(league,"", function() {
@@ -912,8 +916,5 @@ $.ajaxSetup({
     $(".alert-warning button.close-alert-warning").click(function (e) {
         $(this).parent().slideUp();
     });
-
-
-
 
 })(window.jQuery);

@@ -8,3 +8,47 @@ body{
 	color:#62605a;
 	font-size: 13.5px;
 }
+
+.btn.datatable-button {
+	width: 30px;
+	height: 30px;
+	padding: 6px;
+	padding-top: 5px;
+}
+.datatable-button--container {
+	text-align: center;
+}
+.table--container {
+	position: relative;
+}
+
+.new-item-button--container {
+	position: absolute;
+	right: 185px;
+	z-index: 1;
+}
+
+.new-item-button {
+	width: 150px;
+}
+
+.datepicker.dropdown-menu {
+	z-index: 9999!important;
+}
+.tooltip-arrow,
+.white-tooltip + .tooltip > .tooltip-inner {
+	border: 1px solid #F0F0F0;
+	background-color: #DAEFFD;
+	color: black;
+}
+.white-tooltip + .tooltip > .tooltip-arrow {background-color: white;}
+
+.custom-modal-size {
+	width:800px;
+}
+.custom-modal-margin {
+	margin: 100px auto;
+}
+.modal-dialog {
+	z-index: 9000
+}
