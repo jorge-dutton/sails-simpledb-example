@@ -26,7 +26,7 @@ module.exports = {
 						var selectAllData = function (err, data) {
 					 		 if (err) {
 					 				 console.log(err);
-					 				 return res.json({ users: {} });
+					 				 return res.json({ users: {} , error: "error"});
 					 		 } else {
 					 				 if (data.Items) {
 					 						 resultItems = resultItems.concat(data.Items);
@@ -102,7 +102,7 @@ module.exports = {
 					console.log(params);
 	        simpledb.batchPutAttributes(params, function(err, data) {
 	            if (err) {
-	                return res.badRequest();
+					return res.json({ users: {} , error: "error"});
 	            } else {
 	                return res.ok();
 	            }
@@ -168,7 +168,7 @@ module.exports = {
 					console.log(params);
 	        simpledb.batchPutAttributes(params, function(err, data) {
 	            if (err) {
-	                return res.badRequest();
+					return res.json({ users: {} , error: "error"});
 	            } else {
 	                return res.ok();
 	            }
@@ -193,7 +193,7 @@ module.exports = {
 
 		     simpledb.batchDeleteAttributes(params, function (err, data) {
 			     if (err) {
-			     	console.log(err);
+					return res.json({ users: {} , error: "error"});
 			     } else {
 			     	//console.log('delete: ' + name);
 			     }

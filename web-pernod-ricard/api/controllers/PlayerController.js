@@ -23,7 +23,7 @@ module.exports = {
         var selectAllData = function (err, data) {
             if (err) {
                 console.log(err);
-                return res.json({ players: {} });
+                return res.json({ players: {}, error: "error"});
             } else {
                 if (data.Items) {
                     resultItems = resultItems.concat(data.Items);
