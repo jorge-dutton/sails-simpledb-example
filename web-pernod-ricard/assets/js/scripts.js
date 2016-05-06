@@ -6,6 +6,13 @@
 
     'use strict';
 
+$.ajaxSetup({
+    success: function(data) {
+      if(data.error){
+        $('.alert-danger').removeClass('hidden')
+      }
+    }
+});
     // Initialize record table
     var initRecordTable = function(data) {
         var table = $('#recordTable'),
@@ -483,7 +490,6 @@
   var disableTableButtonIfLeagueIsActive = function (tableElement, activesLeagues) {
     $("#leaguesTable").find("button").each(function() {
       var data = getRowData(tableElement, $(this));
-      console.log(leagueNameIsInActivesLeaguesArray(activesLeagues,data[0]))
       $(this).attr('disabled', leagueNameIsInActivesLeaguesArray(activesLeagues,data[0]))
     })
   }
@@ -521,8 +527,10 @@
           type: 'POST',
           url: '/createUser/',
           data: $('#create-user-form').serialize(),
-          success: function() {
-            if(executeOnSuccess){
+          success: function(data) {
+            if(data.error){
+              $('.alert-danger').removeClass('hidden')
+            }else if(executeOnSuccess){
               executeOnSuccess();
             }
           }
@@ -534,10 +542,12 @@
         type: 'POST',
         url: '/updateUser/',
         data: serializedform,
-        success : function() {
-          if( executeOnSuccess){
-           executeOnSuccess(); 
-          }
+        success : function(data) {
+            if(data.error){
+              $('.alert-danger').removeClass('hidden')
+            }else if(executeOnSuccess){
+              executeOnSuccess();
+            }
         }
      });
     }
@@ -548,10 +558,11 @@
         url: '/deleteUser/',
         data: $('#delete-user-form').serialize(),
         success : function() {
-          if( executeOnSuccess){
-          aler("se eject")
-           executeOnSuccess(); 
-          }
+            if(data.error){
+              $('.alert-danger').removeClass('hidden')
+            }else if(executeOnSuccess){
+              executeOnSuccess();
+            }
         }
       });
     }
@@ -562,8 +573,10 @@
           url: '/createLeague/',
           data: $('#create-league-form').serialize(),
           success: function() {
-            if( executeOnSuccess){
-             executeOnSuccess(); 
+            if(data.error){
+              $('.alert-danger').removeClass('hidden')
+            }else if(executeOnSuccess){
+              executeOnSuccess();
             }
           }
       });
@@ -575,8 +588,9 @@
             url: '/updateLeague/',
             data: $('#edit-league-form').serialize(),
             success: function(){
-              console.log(executeOnSuccess)
-              if(executeOnSuccess) {
+              if(data.error){
+                $('.alert-danger').removeClass('hidden')
+              }else if(executeOnSuccess){
                 executeOnSuccess();
               }
             }
@@ -597,12 +611,18 @@
     var initData = function() {
         var allLeagues =  getLeagues;
         allLeagues.success(function(data) {
+
             initLeaguesTable(data.leagues.Items);
+         
         });
 
         var initUsers = getUsers;
         initUsers.success(function(data) {
+          if(data.error){
+         //   $('.alert-danger').toggleClass('hidden')
+          }else{
             initUsersTable(data.users.Items);
+          }
         })
 
         jQuery.ajax({
@@ -610,6 +630,7 @@
             url: '/player/',
             dataType: "json",
             success: function(data) {
+              console.log(data)
                 initRecordTable(data.players.Items);
             }
         });
