@@ -52,3 +52,6 @@ body{
 .modal-dialog {
 	z-index: 9000
 }
+/*#edit-league-userManagement:read-only {
+     pointer-events:none;
+}*/

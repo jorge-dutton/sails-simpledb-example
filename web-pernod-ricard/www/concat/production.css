@@ -2400,7 +2400,9 @@ body{
 .modal-dialog {
 	z-index: 9000
 }
-
+/*#edit-league-userManagement:read-only {
+     pointer-events:none;
+}*/
 @font-face {
 	font-family: 'pages-icon';
 	src:url('../fonts/pages-icon/Pages-icon.eot?-u69vo5');

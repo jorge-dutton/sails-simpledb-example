@@ -19,7 +19,7 @@ module.exports = {
 		        var simpledb = new AWS.SimpleDB();
 
 		        var params = {
-		            SelectExpression: 'select * from usuariopernodricard',
+		            SelectExpression: 'select * from pre_usuariopernodricard',
 		            ConsistentRead: true
 		        };
 						var resultItems = [];
@@ -55,7 +55,7 @@ module.exports = {
 	        var simpledb = new AWS.SimpleDB();
 
 	        var params = {
-	            DomainName: 'usuariopernodricard',
+	            DomainName: 'pre_usuariopernodricard',
 	            Items: [
 	                {
 	                    Attributes: [
@@ -99,10 +99,9 @@ module.exports = {
 	                }
 	            ]
 	        };
-					console.log(params);
 	        simpledb.batchPutAttributes(params, function(err, data) {
 	            if (err) {
-					return res.json({ users: {} , error: "error"});
+					return console.log(err)
 	            } else {
 	                return res.ok();
 	            }
@@ -121,7 +120,7 @@ module.exports = {
 	        var simpledb = new AWS.SimpleDB();
 
 	        var params = {
-	            DomainName: 'usuariopernodricard',
+	            DomainName: 'pre_usuariopernodricard',
 	            Items: [
 	                {
 	                    Attributes: [
@@ -184,7 +183,7 @@ module.exports = {
 		     var simpledb = new AWS.SimpleDB();
 
 		     var params = {
-		     DomainName: 'usuariopernodricard',
+		     DomainName: 'pre_usuariopernodricard',
 		     Items: [
 				     {
 				     Name: req.param('item_name')
@@ -212,7 +211,7 @@ module.exports = {
 
         var simpledb = new AWS.SimpleDB();
         params = {
-            SelectExpression: "select * from usuariopernodricard where `Nombre_Liga` = '"+req.param("league") + "'",
+            SelectExpression: "select * from pre_usuariopernodricard where `Nombre_Liga` = '"+req.param("league") + "'",
             ConsistentRead: true || false
         };
 		var resultItems = [];

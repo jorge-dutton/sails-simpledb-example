@@ -18,7 +18,7 @@ module.exports = {
 						var simpledb = new AWS.SimpleDB();
 
 						var params = {
-								SelectExpression: 'select * from ligapernodricard',
+								SelectExpression: 'select * from pre_ligapernodricard',
 								ConsistentRead: true
 						};
 						var resultItems = [];
@@ -54,7 +54,7 @@ module.exports = {
 					var simpledb = new AWS.SimpleDB();
 
 					var params = {
-							DomainName: 'ligapernodricard',
+							DomainName: 'pre_ligapernodricard',
 							Items: [
 									{
 											Attributes: [
@@ -99,7 +99,7 @@ module.exports = {
 					var simpledb = new AWS.SimpleDB();
 
 					var params = {
-							DomainName: 'ligapernodricard',
+							DomainName: 'pre_ligapernodricard',
 							Items: [
 									{
 											Attributes: [
@@ -141,7 +141,7 @@ module.exports = {
 		     var simpledb = new AWS.SimpleDB();
 
 		     var params = {
-		     DomainName: 'ligapernodricard',
+		     DomainName: 'pre_ligapernodricard',
 		     Items: [
 				     {
 				     Name: req.param('item_name')
