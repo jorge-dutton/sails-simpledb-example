@@ -361,14 +361,20 @@ $.ajaxSetup({
         $("#edit-boss_email-userManagement").val(rowData[6])
         $("#edit-item_name-userManagement").val(rowData[7])
 
+        $("#edit-league-userManagement-hidden").val(rowData[2])
         $("#edit-league-userManagement").val(rowData[2])
-        $("#edit-league-userManagement").attr('readonly',leagueNameIsInActivesLeaguesArray(suitableLeaguesArray, rowData[2]))
+        $("#edit-league-userManagement").attr('disabled',leagueNameIsInActivesLeaguesArray(suitableLeaguesArray, rowData[2]))
       });
 
       deleteRow("delete-user--button", tableElement, function (rowData) {
         $("#delete-item_name-userManagement").val(rowData[7])
       })
     }
+
+    $("#edit-league-userManagement").on('change',function(){
+        var selectVal=$(this).val()
+        $("#edit-league-userManagement-hidden").val(selectVal)
+    })
 
 
     // Inits leagues table
