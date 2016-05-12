@@ -58,7 +58,9 @@ module.exports.routes = {
 
   'POST /updateLeague': 'LeagueController.updateLeague',
 
-  'POST /deleteLeague': 'LeagueController.deleteLeague'
+  'POST /deleteLeague': 'LeagueController.deleteLeague',
+
+  'GET /logUser' : 'LoginController.logUser'
 
 
   //'/delete': 'PlayerController.delete'

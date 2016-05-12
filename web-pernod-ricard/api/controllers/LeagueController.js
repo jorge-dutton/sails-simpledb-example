@@ -23,22 +23,31 @@ module.exports = {
 						};
 						var resultItems = [];
 						var selectAllData = function (err, data) {
-							 if (err) {
-									 console.log(err);
-									 return res.json({ leagues: {} , error: "error"});
-							 } else {
-									 if (data.Items) {
-											 resultItems = resultItems.concat(data.Items);
-									 }
-									 if (data.NextToken) {
-											 params.NextToken = data.NextToken;
-											 simpledb.select(params, selectAllData);
-									 } else {
-											 data.Items = resultItems;
-											 return res.json({ leagues: data });
-									 }
-							 }
-						};
+					 		 if (err) {
+					 				 console.log(err);
+					 				 return res.json({ response: "KO" , error: err});
+					 		 } else {
+				 				 if (data.Items) {
+				 						 resultItems = resultItems.concat(data.Items);
+				 				 }
+				 				 if (data.NextToken) {
+				 						 params.NextToken = data.NextToken;
+				 						 simpledb.select(params, selectAllData);
+				 				 } else {
+				 						 data.Items = resultItems;
+				 						 var dataArray=[];
+				 						 data.Items.forEach(function(item){
+				 						 	var pushInObjectArray= new Object;
+				 						 	pushInObjectArray.id=item.Name;
+				 						 	item.Attributes.forEach(function(itemAttribute){
+				 						 		pushInObjectArray[itemAttribute.Name]=itemAttribute.Value
+				 						 	})
+				 						 	dataArray.push(pushInObjectArray);
+				 						 })
+				 						 return res.json({ response: "OK", data:dataArray});
+				 				 }
+					 		 }
+					  };
 						simpledb.select(params, selectAllData);
 
 				},
@@ -80,7 +89,8 @@ module.exports = {
 					};
 					simpledb.batchPutAttributes(params, function(err, data) {
 							if (err) {
-									return res.json({ leagues: {} , error: "error"});
+				 				console.log(err);
+				 				return res.json({ response: "KO" , error: err});
 							} else {
 									return res.ok();
 							}
@@ -125,7 +135,8 @@ module.exports = {
 					};
 					simpledb.batchPutAttributes(params, function(err, data) {
 							if (err) {
-									return res.json({ leagues: {} , error: "error"});
+				 				console.log(err);
+				 				return res.json({ response: "KO" , error: err});
 							} else {
 									return res.ok();
 							}
@@ -150,7 +161,8 @@ module.exports = {
 
 		     simpledb.batchDeleteAttributes(params, function (err, data) {
 			     if (err) {
-			     	return res.json({ leagues: {} , error: "error"});		
+	 				console.log(err);
+	 				return res.json({ response: "KO" , error: err});
 			     }
 			 });
 

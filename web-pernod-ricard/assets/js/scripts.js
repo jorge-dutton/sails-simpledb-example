@@ -22,46 +22,25 @@ $.ajaxSetup({
             settings = {};
 
         if (data) {
-
-            $.each(data, function( key, value ) {
-                var player = new Array();
-                $.each(value.Attributes, function( key, attr ) {
-                    if (attr.Name == 'Jugador') {
-                        player[0] = attr.Value;
-                    } else if (attr.Name == 'Liga') {
-                        player[1] = attr.Value;
-                        if (leagues.indexOf(attr.Value) === -1 && attr.Value !== "") {
-                          leagues.push(attr.Value);
-                        }
-                    } else if (attr.Name == 'Categoria') {
-                        player[2] = attr.Value;
-                    } else if (attr.Name == 'Descripcion') {
-                        player[3] = attr.Value;
-                    } else if (attr.Name == 'Puntos_Desempeno') {
-                        player[4] = attr.Value;
-                    } else if (attr.Name == 'Puntos_Compromiso') {
-                        player[5] = attr.Value;
-                    } else if (attr.Name == 'Dia') {
-                        player[6] = attr.Value;
-                    } else if (attr.Name == 'Hora') {
-                        player[7] = attr.Value;
-                    } else if (attr.Name == 'Fecha') {
-                        player[8] = attr.Value;
-                    } else if (attr.Name == 'Respuesta') {
-                        player[9] = attr.Value;
-                    } else if (attr.Name == 'Email') {
-                        player[10] = attr.Value;
-                    } else if (attr.Name == 'Contrasena') {
-                        player[11] = attr.Value;
-                    }
-                });
-                if (player.length < 12) {
-                  for (var i=player.length; i<12; i++) {
-                    player[i] = '';
-                  }
-                }
-                players.push(player);
-            });
+            data.forEach(function(recordBDItem) {
+              var player=[];
+              player[0] = recordBDItem.Jugador;
+              player[1] = recordBDItem.Liga;
+              player[2] = recordBDItem.Categoria;
+              player[3] = recordBDItem.Descripcion;
+              player[4] = recordBDItem.Puntos_Desempeno;
+              player[5] = recordBDItem.Puntos_Compromiso;
+              player[6] = recordBDItem.Dia;
+              player[7] = recordBDItem.Hora;
+              player[8] = recordBDItem.Fecha;
+              player[9] = recordBDItem.Respuesta;
+              player[10] = recordBDItem.Email;
+              player[11] = recordBDItem.Contrasena;
+              if (leagues.indexOf(recordBDItem.Nombre_Liga) === -1 && recordBDItem.Nombre_Liga !== "") {
+                            leagues.push(recordBDItem.Nombre_Liga);
+              }
+              players.push(player);
+            })
             if (leagueSelect.data('loaded') !== true) {
               for (var i=0, ll = leagues.length; i < ll; i++) {
                 leagueSelect.append('<option value="'+leagues[i]+'">'+leagues[i]+'</option>');
@@ -255,37 +234,21 @@ $.ajaxSetup({
           leagueSelect= $('#league-userManagement');
 
           if (data) {
-
-              $.each(data, function( key, value ) {
-                  var user = new Array();
-                  $.each(value.Attributes, function( key, attr ) {
-                      if (attr.Name == 'Nombre') {
-                          user[0] = attr.Value;
-                      } else if (attr.Name == 'Apellidos') {
-                          user[1] = attr.Value;
-                      } else if (attr.Name == 'Nombre_Liga') {
-                          user[2] = attr.Value;
-                          if (leagues.indexOf(attr.Value) === -1 && attr.Value !== "") {
-                            leagues.push(attr.Value);
-                          }
-                      }else if (attr.Name == 'Password') {
-                          user[3] = attr.Value;
-                      } else if (attr.Name == 'Email_Usuario') {
-                          user[4] = attr.Value;
-                      } else if (attr.Name == 'Email_Fijo') {
-                          user[5] = attr.Value;
-                      } else if (attr.Name == 'Email_Jefe') {
-                          user[6] = attr.Value;
-                          user[7] = value.Name;
-                      }
-                  });
-                  if (user.length < 7) {
-                    for (var i=user.length; i<7; i++) {
-                      user[i] = '';
-                    }
-                  }
-                  users.push(user);
-              });
+            data.forEach(function(userBDItem) {
+              var user=[];
+              user[0] = userBDItem.Nombre;
+              user[1] = userBDItem.Apellidos;
+              user[2] = userBDItem.Nombre_Liga;
+              user[3] = userBDItem.Password;
+              user[4] = userBDItem.Email_Usuario;
+              user[5] = userBDItem.Email_Fijo;
+              user[6] = userBDItem.Email_Jefe;
+              user[7] = userBDItem.id;
+              if (leagues.indexOf(userBDItem.Nombre_Liga) === -1 && userBDItem.Nombre_Liga !== "") {
+                            leagues.push(userBDItem.Nombre_Liga);
+              }
+              users.push(user);
+            })
               if (leagueSelect.data('loaded') !== true) {
                 leagues.forEach(function(league) {
                   leagueSelect.append('<option value="'+league+'">'+league+'</option>');
@@ -293,8 +256,6 @@ $.ajaxSetup({
                 leagueSelect.data('loaded', true);
               }
           }
-
-
       settings = {
           "data": users,
           "dom": '<"table-responsive"<"pr-table-info pull-right"i><"export-options-container pull-right m-b-5"T><"clear-fix"><"center-margin full-width"t>><"center-margin full-width text-center"p>',
@@ -371,10 +332,7 @@ $.ajaxSetup({
       })
     }
 
-    $("#edit-league-userManagement").on('change',function(){
-        var selectVal=$(this).val()
-        $("#edit-league-userManagement-hidden").val(selectVal)
-    })
+
 
 
     // Inits leagues table
@@ -531,8 +489,8 @@ $.ajaxSetup({
           url: '/search/',
           data: $('#search-form').serialize(),
           dataType: "json",
-          success: function( data ) {
-              initRecordTable(data.players.Items);
+          success: function(responseJSON) {
+              initRecordTable(responseJSON.data);
           }
       });
     }
@@ -625,21 +583,22 @@ $.ajaxSetup({
 
     var initData = function() {
         var allLeagues =  getLeagues;
-        allLeagues.success(function(data) {
-            initLeaguesTable(data.leagues.Items);
+        allLeagues.success(function(responseJSON) {
+            initLeaguesTable(responseJSON.data);
         });
 
         var initUsers = getUsers;
-        initUsers.success(function(data) {
-            initUsersTable(data.users.Items);
+        initUsers.success(function(responseJSON) {
+            initUsersTable(responseJSON.data);
         })
 
         jQuery.ajax({
             type: 'GET',
             url: '/player/',
             dataType: "json",
-            success: function(data) {
-                initRecordTable(data.players.Items);
+            success: function(responseJSON) {
+              console.log("entra en initrecord")
+                initRecordTable(responseJSON.data);
             }
         });
 
@@ -660,25 +619,14 @@ $.ajaxSetup({
    * @leagues: should be an empty Array to fill
    */
     var createLeaguesObject = function(data, leagues) {
-      $.each(data, function(key, value) {
-        var league = new Array();
-        $.each(value.Attributes, function(key, attr) {
-          if (attr.Name == 'Nombre_Liga') {
-            league[0] = attr.Value;
-          } else if (attr.Name == 'Fecha_Inicio') {
-            league[1] = attr.Value;
-          } else if (attr.Name == 'Fecha_Fin') {
-            league[2] = attr.Value;
-            league[3] = value.Name;
-          }
-        });
-        if (league.length < 4) {
-          for (var i=league.length; i<4; i++) {
-            league[i] = '';
-          }
-        }
+      data.forEach(function(leagueBDItem) {
+        var league=[];
+        league[0] = leagueBDItem.Nombre_Liga;
+        league[1] = leagueBDItem.Fecha_Inicio;
+        league[2] = leagueBDItem.Fecha_Fin;
+        league[3] = leagueBDItem.id;
         leagues.push(league);
-      });
+      })
     }
 
     /**Params:
@@ -702,10 +650,10 @@ $.ajaxSetup({
     var getSuitableLeagues = function() {
       var suitableLeagues = new Array;
       var getAllLeagues = getLeagues;
-      getAllLeagues.success(function (data) {
+      getAllLeagues.success(function (responseJSON) {
         var leagues = new Array,
             currentTimeStamp = new Date();
-        createLeaguesObject (data.leagues.Items, leagues)
+        createLeaguesObject (responseJSON.data, leagues)
 
         leagues.forEach(function(league) {
           var leagueEndDate = moment(league[2],'DD/M/YY').toDate();
@@ -767,8 +715,8 @@ $.ajaxSetup({
           url: '/usersByLeague/',
           data:'league='+oldleague,
           dataType: "json"
-        }).success(function(data){
-         changeUserLeague(newLeague,data.users.Items, executeOnSuccess);
+        }).success(function(responseJSON){
+         changeUserLeague(newLeague,responseJSON.data, executeOnSuccess);
         });
       }
     };
@@ -811,28 +759,17 @@ $.ajaxSetup({
 
     var changeUserLeague = function(newLeague, data , executeAtEnd) {
       if (data){
-        $.each(data, function( key, value ) {
-          var params="";
-          $.each(value.Attributes, function( key, attr ) {
-            if (attr.Name == 'Nombre') {
-                params = params + "name="+attr.Value+"&";
-            } else if (attr.Name == 'Apellidos') {
-                params = params + "surname="+attr.Value+"&";
-            } else if (attr.Name == 'Nombre_Liga') {
-                params = params + "league="+newLeague+"&";
-            }else if (attr.Name == 'Password') {
-                params = params + "password="+attr.Value+"&";
-            } else if (attr.Name == 'Email_Usuario') {
-                params = params + "user_email="+attr.Value+"&";
-            } else if (attr.Name == 'Email_Fijo') {
-                params = params + "official_email="+attr.Value+"&";
-            } else if (attr.Name == 'Email_Jefe') {
-                params = params + "boss_email="+attr.Value+"&";
-                params = params + "item_name="+value.Name;
-            }
-          });
+        data.forEach(function(userBDItem) {
+          var params='name='+userBDItem.Nombre+
+                      '&surname='+userBDItem.Apellidos+
+                      '&league='+newLeague+
+                      '&password='+userBDItem.Password+
+                      '&user_email='+userBDItem.Email_Usuario+
+                      '&official_email='+userBDItem.Email_Fijo+
+                      '&boss_email='+userBDItem.Email_Jefe+
+                      '&item_name='+userBDItem.id;
           updateUser(params);
-        });
+        })
         if (executeAtEnd){
           executeAtEnd();
         }
@@ -910,7 +847,7 @@ $.ajaxSetup({
       });
     });
 
-//Fills select of leagues on he user creation modal
+    //Fills select of leagues on he user creation modal
     $('.create-user--button').click(function (e) {
       e.preventDefault();
       setSuitableLeaguesSelect("create-league-userManagement");
@@ -919,6 +856,11 @@ $.ajaxSetup({
     $(".alert-warning button.close-alert-warning").click(function (e) {
         $(this).parent().slideUp();
     });
+
+    $("#edit-league-userManagement").on('change',function(){
+      var selectVal=$(this).val()
+      $("#edit-league-userManagement-hidden").val(selectVal)
+    })
 
 
 //Function to add massive amount of users

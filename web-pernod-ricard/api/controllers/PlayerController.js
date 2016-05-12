@@ -21,22 +21,58 @@ module.exports = {
             ConsistentRead: true
         };
         var selectAllData = function (err, data) {
-            if (err) {
-                console.log(err);
-                return res.json({ players: {}, error: "error"});
-            } else {
-                if (data.Items) {
-                    resultItems = resultItems.concat(data.Items);
-                }
-                if (data.NextToken) {
-                    params.NextToken = data.NextToken;
-                    simpledb.select(params, selectAllData);
-                } else {
-                    data.Items = resultItems;
-                    return res.json({ players: data });
-                }
-            }
-        };
+             if (err) {
+                     console.log(err);
+                     return res.json({ response: "KO" , error: err});
+             } else {
+                 if (data.Items) {
+                         resultItems = resultItems.concat(data.Items);
+                 }
+                 if (data.NextToken) {
+                         params.NextToken = data.NextToken;
+                         simpledb.select(params, selectAllData);
+                 } else {
+                         data.Items = resultItems;
+                         var dataArray=[];
+                         data.Items.forEach(function(item){
+                            var pushInObjectArray= new Object;
+                            item.Attributes.forEach(function(itemAttribute){
+                                if (itemAttribute.Name == 'Jugador') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Liga') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Categoria') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Descripcion') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Puntos_Desempeno') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Puntos_Compromiso') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Dia') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Hora') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Fecha') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Respuesta') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Email') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Contrasena') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                }
+                            })
+                            
+                            if (!(Object.keys(pushInObjectArray).length < 12)) {
+                                dataArray.push(pushInObjectArray);
+                            }
+                           
+                         })
+                         return res.json({ response: "OK", data:dataArray});
+                 }
+             }
+      };
 
         simpledb.select(params, selectAllData);
 
@@ -106,22 +142,57 @@ module.exports = {
         };
 
         var selectAllData = function (err, data) {
-            if (err) {
-                console.log(err);
-                return res.json({ players: {} });
-            } else {
-                if (data.Items) {
-                    resultItems = resultItems.concat(data.Items);
-                }
-                if (data.NextToken) {
-                    params.NextToken = data.NextToken;
-                    simpledb.select(params, selectAllData);
-                } else {
-                    data.Items = resultItems;
-                    return res.json({ players: data });
-                }
-            }
-        };
+             if (err) {
+                     console.log(err);
+                     return res.json({ response: "KO" , error: err});
+             } else {
+                 if (data.Items) {
+                         resultItems = resultItems.concat(data.Items);
+                 }
+                 if (data.NextToken) {
+                         params.NextToken = data.NextToken;
+                         simpledb.select(params, selectAllData);
+                 } else {
+                         data.Items = resultItems;
+                         var dataArray=[];
+                         data.Items.forEach(function(item){
+                            var pushInObjectArray= new Object;
+                            item.Attributes.forEach(function(itemAttribute){
+                                if (itemAttribute.Name == 'Jugador') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Liga') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Categoria') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Descripcion') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Puntos_Desempeno') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Puntos_Compromiso') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Dia') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Hora') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Fecha') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Respuesta') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Email') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                } else if (itemAttribute.Name == 'Contrasena') {
+                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                                }
+                            })
+                            if (!(Object.keys(pushInObjectArray).length < 12)) {
+                                dataArray.push(pushInObjectArray);
+                            }
+                           
+                         })
+                         return res.json({ response: "OK", data:dataArray});
+                 }
+             }
+      };
 
         result = simpledb.select(params, selectAllData);
 
