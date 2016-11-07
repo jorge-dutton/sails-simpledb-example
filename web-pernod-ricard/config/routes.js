@@ -44,13 +44,13 @@ module.exports.routes = {
 
   'GET /ranking/:league': 'RankingController.getRankingByLeague',
 
-  'GET /ranking/:email': 'RankingController.getRankingByEmail',
+  'GET /ranking/user/:email': 'RankingController.getRankingByEmail',
 
-  'POST /ranking': 'RankingController.createRankingItem',
+  'POST /ranking/user': 'RankingController.createRankingItem',
 
-  'PUT /ranking': 'RankingController.updateRankingItem',
+  'PUT /ranking/user': 'RankingController.updateRankingItem',
 
-  'DELETE /ranking': 'RankingController.deleteRankingItem',
+  'DELETE /ranking/user': 'RankingController.deleteRankingItem',
 
   'POST /createUser': 'UserController.createUser',
 

@@ -124,7 +124,6 @@ module.exports = {
                             if (itemAttribute.Name === 'email') {
                                 email = itemAttribute.Value.split('.').join("").split('@').join("").split('-').join("");
                             }
-
                             rankingData[itemAttribute.Name] = itemAttribute.Value;
 
                         });
@@ -185,13 +184,10 @@ module.exports = {
                             if (itemAttribute.Name === 'email') {
                                 email = itemAttribute.Value.split('.').join("").split('@').join("").split('-').join("");
                             }
-
                             rankingData[itemAttribute.Name] = itemAttribute.Value;
-
                         });
                         ranking.user[email] = rankingData;
                     });
-
 
                     return res.status(200).json(ranking);
 
