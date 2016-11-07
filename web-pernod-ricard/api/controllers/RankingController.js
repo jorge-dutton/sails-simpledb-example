@@ -72,6 +72,75 @@ module.exports = {
         simpledb.select(params, selectAllData);
     },
 
+    getRankingByLeague: function (req, res) {
+
+        if (!req.param('league')) {
+            res.status(409).json({ response: 'KO', error: "league param is mandatory for getting league's ranking" });
+        }
+
+        var AWS = require('aws-sdk'),
+            params = {},
+            resultItems = [],
+            rankingData = {},
+            ranking = { users: {} },
+            email;
+
+        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
+        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
+
+        var simpledb = new AWS.SimpleDB();
+
+        params = {
+            SelectExpression: "select * from rankingpernodricard where `league` = '" + req.param("league") + "'",
+            ConsistentRead: true
+        };
+
+        var selectAllData = function (err, data) {
+            if (err) {
+                return res.status(409).json({ response: "KO", error: err});
+            } else {
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                    resultItems.sort(function(a, b) {
+                        var filterdScoresA = a.Attributes.filter(function(element) {
+                            return element.Name === 'score';
+                        });
+                        var filterdScoresB = b.Attributes.filter(function(element) {
+                            return element.Name === 'score';
+                        });
+                        return parseInt(filterdScoresB[0].Value) - parseInt(filterdScoresA[0].Value);
+                    });
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+
+                    data.Items.forEach(function(item){
+                        rankingData = { 'item-name': item.Name };
+
+                        item.Attributes.forEach(function(itemAttribute) {
+                            if (itemAttribute.Name === 'email') {
+                                email = itemAttribute.Value.split('.').join("").split('@').join("").split('-').join("");
+                            } else {
+                                rankingData[itemAttribute.Name] = itemAttribute.Value;
+                            }
+                        });
+                        ranking.users[email] = rankingData;
+                    });
+
+
+                    return res.status(200).json(ranking);
+
+                }
+
+            }
+        };
+
+        simpledb.select(params, selectAllData);
+    },
+
     getRankingByEmail: function (req, res) {
 
         if (!req.param('email')) {
