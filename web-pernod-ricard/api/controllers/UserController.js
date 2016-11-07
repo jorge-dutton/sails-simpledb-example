@@ -11,7 +11,7 @@ module.exports = {
 	Initializes the user management table
 	 */
 			init: function(req, res) {
-		        var AWS = require('aws-sdk')
+		        var AWS = require('aws-sdk');
 
 		        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
 		        AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
@@ -42,9 +42,9 @@ module.exports = {
 				 						 	pushInObjectArray.id=item.Name;
 				 						 	item.Attributes.forEach(function(itemAttribute){
 				 						 		pushInObjectArray[itemAttribute.Name]=itemAttribute.Value
-				 						 	})
+				 						 	});
 				 						 	dataArray.push(pushInObjectArray);
-				 						 })
+				 						 });
 				 						 return res.json({ response: "OK", data:dataArray});
 				 				 }
 					 		 }
@@ -71,43 +71,44 @@ module.exports = {
 	                        {
 	                            Name: 'Email_Usuario',
 	                            Value: req.param('user_email'),
-	                            Replace: true || false
+	                            Replace: false
 	                        },
 	                        {
 	                            Name: 'Password',
 	                            Value: req.param('password'),
-	                            Replace: true || false
+	                            Replace: false
 	                        },
 	                        {
 	                            Name: 'Nombre',
 	                            Value: req.param('name'),
-	                            Replace: true || false
+	                            Replace: false
 	                        },
 	                        {
 	                            Name: 'Apellidos',
 	                            Value: req.param('surname'),
-	                            Replace: true || false
+	                            Replace: false
 	                        },
 	                        {
 	                            Name: 'Email_Fijo',
 	                            Value: req.param('official_email'),
-	                            Replace: true || false
+	                            Replace: false
 	                        },
 	                        {
 	                            Name: 'Email_Jefe',
 	                            Value: req.param('boss_email'),
-	                            Replace: true || false
+	                            Replace: false
 	                        },
 	                        {
 	                            Name: 'Nombre_Liga',
 	                            Value: req.param('league'),
-	                            Replace: true || false
+	                            Replace: false
 	                        }
 	                    ],
 	                    Name: new Date().getTime().toString()
 	                }
 	            ]
 	        };
+
 	        simpledb.batchPutAttributes(params, function(err, data) {
 	            if (err) {
 	 				console.log(err);
@@ -118,9 +119,10 @@ module.exports = {
 	        });
 
 	    },
-	    	    /*
+
+	    /*
 	      Updates an User
-	     */
+	    */
 	    updateUser: function (req, res) {
 	        var AWS = require('aws-sdk');
 
@@ -137,44 +139,46 @@ module.exports = {
 	                        {
 	                            Name: 'Email_Usuario',
 	                            Value: req.param('user_email'),
-	                            Replace: true || false
+	                            Replace: true
 	                        },
 	                        {
 	                            Name: 'Password',
 	                            Value: req.param('password'),
-	                            Replace: true || false
+	                            Replace: true
 	                        },
 	                        {
 	                            Name: 'Nombre',
 	                            Value: req.param('name'),
-	                            Replace: true || false
+	                            Replace: true
 	                        },
 	                        {
 	                            Name: 'Apellidos',
 	                            Value: req.param('surname'),
-	                            Replace: true || false
+	                            Replace: true
 	                        },
 	                        {
 	                            Name: 'Email_Fijo',
 	                            Value: req.param('official_email'),
-	                            Replace: true || false
+	                            Replace: true
 	                        },
 	                        {
 	                            Name: 'Email_Jefe',
 	                            Value: req.param('boss_email'),
-	                            Replace: true || false
+	                            Replace: true
 	                        },
 	                        {
 	                            Name: 'Nombre_Liga',
 	                            Value: req.param('league'),
-	                            Replace: true || false
+	                            Replace: true
 	                        }
 	                    ],
 	                    Name: req.param('item_name')
 	                }
 	            ]
 	        };
-					console.log(params);
+
+			console.log(params);
+
 	        simpledb.batchPutAttributes(params, function(err, data) {
 	            if (err) {
 	 				console.log(err);
@@ -185,6 +189,7 @@ module.exports = {
 	        });
 
 	    },
+
 	    deleteUser: function(req, res) {
 		     var AWS = require('aws-sdk');
 
@@ -212,7 +217,7 @@ module.exports = {
     usersByLeague: function(req, res) {
         var AWS = require('aws-sdk'),
             result,
-            params = {}
+            params = {};
             
             resultItems = [];
 
@@ -222,7 +227,7 @@ module.exports = {
         var simpledb = new AWS.SimpleDB();
         params = {
             SelectExpression: "select * from pre_usuariopernodricard where `Nombre_Liga` = '"+req.param("league") + "'",
-            ConsistentRead: true || false
+            ConsistentRead: true
         };
 		var resultItems = [];
 		var selectAllData = function (err, data) {
@@ -244,9 +249,9 @@ module.exports = {
  						 	pushInObjectArray.id=item.Name;
  						 	item.Attributes.forEach(function(itemAttribute){
  						 		pushInObjectArray[itemAttribute.Name]=itemAttribute.Value
- 						 	})
+ 						 	});
  						 	dataArray.push(pushInObjectArray);
- 						 })
+ 						 });
  						 return res.json({ response: "OK", data:dataArray});
  				 }
 	 		 }

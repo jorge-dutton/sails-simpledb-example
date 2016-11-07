@@ -40,7 +40,17 @@ module.exports.routes = {
 
   'POST /player': 'PlayerController.create',
 
-  'GET /ranking': 'PlayerController.initRanking',
+  'GET /ranking': 'RankingController.getRanking',
+
+  'GET /ranking/:league': 'RankingController.getRankingByLeague',
+
+  'GET /ranking/:email': 'RankingController.getRankingByEmail',
+
+  'POST /ranking': 'RankingController.createRankingItem',
+
+  'PUT /ranking': 'RankingController.updateRankingItem',
+
+  'DELETE /ranking': 'RankingController.deleteRankingItem',
 
   'POST /createUser': 'UserController.createUser',
 
@@ -61,7 +71,6 @@ module.exports.routes = {
   'POST /deleteLeague': 'LeagueController.deleteLeague',
 
   'GET /logUser' : 'LoginController.logUser'
-
 
   //'/delete': 'PlayerController.delete'
 

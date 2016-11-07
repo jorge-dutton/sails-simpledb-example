@@ -5,7 +5,8 @@
 
 module.exports.aws = {
 
-    domainName: 'logpernodricard',
+    apiVersion: '2009-04-15',
+    region: 'eu-west-1',
     read: {
         accessKeyId: 'AKIAJYFAOW4ID7OFESVQ',
         secretKey: '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'

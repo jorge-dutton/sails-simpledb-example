@@ -62,13 +62,13 @@ module.exports = {
                                 } else if (itemAttribute.Name == 'Contrasena') {
                                     pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
                                 }
-                            })
+                            });
                             
                             if (!(Object.keys(pushInObjectArray).length < 12)) {
                                 dataArray.push(pushInObjectArray);
                             }
                            
-                         })
+                         });
                          return res.json({ response: "OK", data:dataArray});
                  }
              }
@@ -78,6 +78,7 @@ module.exports = {
 
     },
 
+    /*
     initRanking: function(req, res) {
         var Firebase = require("firebase");
 
@@ -87,6 +88,7 @@ module.exports = {
         });
 
     },
+    */
 
     search: function(req, res) {
         var AWS = require('aws-sdk'),
@@ -183,12 +185,12 @@ module.exports = {
                                 } else if (itemAttribute.Name == 'Contrasena') {
                                     pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
                                 }
-                            })
+                            });
                             if (!(Object.keys(pushInObjectArray).length < 12)) {
                                 dataArray.push(pushInObjectArray);
                             }
                            
-                         })
+                         });
                          return res.json({ response: "OK", data:dataArray});
                  }
              }
