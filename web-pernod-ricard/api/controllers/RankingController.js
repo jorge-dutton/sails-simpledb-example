@@ -61,8 +61,11 @@ module.exports = {
                         ranking.users[email] = rankingData;
                     });
 
-
-                    return res.status(200).json(ranking);
+                    if (JSON.stringify(ranking.users) === JSON.stringify({})) {
+                        res.status(409).json({ response: "KO", error: 'No user found. Empty domain.' });
+                    } else {
+                        res.status(200).json(ranking);
+                    }
 
                 }
 
@@ -131,7 +134,11 @@ module.exports = {
                     });
 
 
-                    return res.status(200).json(ranking);
+                    if (JSON.stringify(ranking.users) === JSON.stringify({})) {
+                        res.status(409).json({ response: "KO", error: 'No users found for league: ' + req.param("league") });
+                    } else {
+                        res.status(200).json(ranking);
+                    }
 
                 }
 
@@ -166,7 +173,7 @@ module.exports = {
 
         var findOne = function (err, data) {
             if (err) {
-                return res.status(409).json({ response: "KO", error: err});
+                return res.status(409).json({ response: "KO", error: err });
             } else {
                 if (data.Items) {
                     resultItems = resultItems.concat(data.Items);
@@ -189,7 +196,11 @@ module.exports = {
                         ranking.user[email] = rankingData;
                     });
 
-                    return res.status(200).json(ranking);
+                    if (JSON.stringify(ranking.user) === JSON.stringify({})) {
+                        res.status(409).json({ response: "KO", error: 'No user found' });
+                    } else {
+                        res.status(200).json(ranking);
+                    }
 
                 }
 
