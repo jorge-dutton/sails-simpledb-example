@@ -54,9 +54,9 @@ module.exports = {
                         item.Attributes.forEach(function(itemAttribute) {
                             if (itemAttribute.Name === 'email') {
                                 email = itemAttribute.Value.split('.').join("").split('@').join("").split('-').join("");
-                            } else {
-                                rankingData[itemAttribute.Name] = itemAttribute.Value;
                             }
+                            rankingData[itemAttribute.Name] = itemAttribute.Value;
+
                         });
                         ranking.users[email] = rankingData;
                     });
@@ -123,9 +123,10 @@ module.exports = {
                         item.Attributes.forEach(function(itemAttribute) {
                             if (itemAttribute.Name === 'email') {
                                 email = itemAttribute.Value.split('.').join("").split('@').join("").split('-').join("");
-                            } else {
-                                rankingData[itemAttribute.Name] = itemAttribute.Value;
                             }
+
+                            rankingData[itemAttribute.Name] = itemAttribute.Value;
+
                         });
                         ranking.users[email] = rankingData;
                     });
@@ -183,9 +184,10 @@ module.exports = {
                         item.Attributes.forEach(function(itemAttribute) {
                             if (itemAttribute.Name === 'email') {
                                 email = itemAttribute.Value.split('.').join("").split('@').join("").split('-').join("");
-                            } else {
-                                rankingData[itemAttribute.Name] = itemAttribute.Value;
                             }
+
+                            rankingData[itemAttribute.Name] = itemAttribute.Value;
+
                         });
                         ranking.user[email] = rankingData;
                     });
