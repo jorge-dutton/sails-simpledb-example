@@ -39,7 +39,7 @@ module.exports = {
                         var filterdScoresB = b.Attributes.filter(function(element) {
                             return element.Name === 'score';
                         });
-                        return parseInt(filterdScoresB[0].Value) - parseInt(filterdScoresA[0].Value);
+                        return parseFloat(filterdScoresB[0].Value) - parseFloat(filterdScoresA[0].Value);
                     });
                 }
                 if (data.NextToken) {
@@ -111,7 +111,7 @@ module.exports = {
                         var filterdScoresB = b.Attributes.filter(function(element) {
                             return element.Name === 'score';
                         });
-                        return parseInt(filterdScoresB[0].Value) - parseInt(filterdScoresA[0].Value);
+                        return parseFloat(filterdScoresB[0].Value) - parseFloat(filterdScoresA[0].Value);
                     });
                 }
                 if (data.NextToken) {
