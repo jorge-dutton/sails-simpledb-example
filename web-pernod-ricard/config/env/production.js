@@ -12,27 +12,43 @@
 
 module.exports = {
 
-  /***************************************************************************
-   * Set the default database connection for models in the production        *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
+    /***************************************************************************
+     * Set the default database connection for models in the production        *
+     * environment (see config/connections.js and config/models.js )           *
+     ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMysqlServer'
-  // },
+    // models: {
+    //   connection: 'someMysqlServer'
+    // },
 
-  /***************************************************************************
-   * Set the port in the production environment to 80                        *
-   ***************************************************************************/
+    /***************************************************************************
+     * Set the port in the production environment to 80                        *
+     ***************************************************************************/
 
-  port: 3000,
-  hookTimeout: 30000
-  /***************************************************************************
-   * Set the log level in production environment to "silent"                 *
-   ***************************************************************************/
+    port: 3000,
+    hookTimeout: 30000,
+    /***************************************************************************
+     * Set the log level in production environment to "silent"                 *
+     ***************************************************************************/
 
-  // log: {
-  //   level: "silent"
-  // }
+    // log: {
+    //   level: "silent"
+    // }
+    categoryDomain: 'categoriapernodricard',
+    logDomain: 'logpernodricard',
+    userDomain: 'usuariopernodricard',
+    leagueDomain: 'ligapernodricard',
+    rankingDomain: 'rankingpernodricard',
+    apiVersion: '2009-04-15',
+    region: 'eu-west-1',
+    read: {
+        accessKeyId: 'AKIAJYFAOW4ID7OFESVQ',
+        secretKey: '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'
+    },
+    readAndWrite: {
+        accessKeyId: 'AKIAJWLUQYUC45KM4VTA',
+        secretKey: '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'
+    }
+
 
 };
