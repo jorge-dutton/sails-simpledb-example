@@ -5,257 +5,235 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-
+/*jslint unparam: true*/
+/*global sails: true*/
 module.exports = {
-	/*
-	Initializes the user management table
-	 */
-			init: function(req, res) {
-		        var AWS = require('aws-sdk');
+    /*
+     Initializes the user management table
+     */
+    init: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {
+                SelectExpression: 'select * from ' + sails.config.userDomain,
+                ConsistentRead: true
+            },
+            resultItems = [],
+            selectAllData,
+            dataArray = [],
+            pushInObjectArray = {};
 
-		        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-		        AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
+        selectAllData = function (err, data) {
+            if (err) {
+                console.log(err);
+                res.status(409).json({ response: "KO", error: err});
+            } else {
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+                    dataArray = [];
+                    data.Items.forEach(function (item) {
+                        pushInObjectArray = {};
+                        pushInObjectArray.id = item.Name;
+                        item.Attributes.forEach(function (itemAttribute) {
+                            pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                        });
+                        dataArray.push(pushInObjectArray);
+                    });
+                    res.status(200).json({ response: "OK", data: dataArray});
+                }
+            }
+        };
+        simpledb.select(params, selectAllData);
 
-		        var simpledb = new AWS.SimpleDB();
+    },
+    /*
+     Create a User
+     */
+    createUser: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {
+                DomainName: sails.config.userDomain,
+                Items: [
+                    {
+                        Attributes: [
+                            {
+                                Name: 'Email_Usuario',
+                                Value: req.param('user_email'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Password',
+                                Value: req.param('password'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Nombre',
+                                Value: req.param('name'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Apellidos',
+                                Value: req.param('surname'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Email_Fijo',
+                                Value: req.param('official_email'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Email_Jefe',
+                                Value: req.param('boss_email'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Nombre_Liga',
+                                Value: req.param('league'),
+                                Replace: false
+                            }
+                        ],
+                        Name: new Date().getTime().toString()
+                    }
+                ]
+            };
 
-		        var params = {
-		            SelectExpression: 'select * from pre_usuariopernodricard',
-		            ConsistentRead: true
-		        };
-						var resultItems = [];
-						var selectAllData = function (err, data) {
-					 		 if (err) {
-					 				 console.log(err);
-					 				 return res.json({ response: "KO" , error: err});
-					 		 } else {
-				 				 if (data.Items) {
-				 						 resultItems = resultItems.concat(data.Items);
-				 				 }
-				 				 if (data.NextToken) {
-				 						 params.NextToken = data.NextToken;
-				 						 simpledb.select(params, selectAllData);
-				 				 } else {
-				 						 data.Items = resultItems;
-				 						 var dataArray=[];
-				 						 data.Items.forEach(function(item){
-				 						 	var pushInObjectArray= new Object;
-				 						 	pushInObjectArray.id=item.Name;
-				 						 	item.Attributes.forEach(function(itemAttribute){
-				 						 		pushInObjectArray[itemAttribute.Name]=itemAttribute.Value
-				 						 	});
-				 						 	dataArray.push(pushInObjectArray);
-				 						 });
-				 						 return res.json({ response: "OK", data:dataArray});
-				 				 }
-					 		 }
-					  };
-		        simpledb.select(params, selectAllData);
+        simpledb.batchPutAttributes(params, function (err, data) {
+            if (err) {
+                console.log(err);
+                res.status(409).json({ response: "KO", error: err});
+            } else {
+                res.status(200).ok();
+            }
+        });
 
-		    },
-	    /*
-	      Create a User
-	     */
-	    createUser: function (req, res) {
-	        var AWS = require('aws-sdk');
+    },
 
-	        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-	        AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
+    /*
+     Updates an User
+     */
+    updateUser: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {
+                DomainName: sails.config.userDomain,
+                Items: [
+                    {
+                        Attributes: [
+                            {
+                                Name: 'Email_Usuario',
+                                Value: req.param('user_email'),
+                                Replace: true
+                            },
+                            {
+                                Name: 'Password',
+                                Value: req.param('password'),
+                                Replace: true
+                            },
+                            {
+                                Name: 'Nombre',
+                                Value: req.param('name'),
+                                Replace: true
+                            },
+                            {
+                                Name: 'Apellidos',
+                                Value: req.param('surname'),
+                                Replace: true
+                            },
+                            {
+                                Name: 'Email_Fijo',
+                                Value: req.param('official_email'),
+                                Replace: true
+                            },
+                            {
+                                Name: 'Email_Jefe',
+                                Value: req.param('boss_email'),
+                                Replace: true
+                            },
+                            {
+                                Name: 'Nombre_Liga',
+                                Value: req.param('league'),
+                                Replace: true
+                            }
+                        ],
+                        Name: req.param('item_name')
+                    }
+                ]
+            };
 
-	        var simpledb = new AWS.SimpleDB();
+        simpledb.batchPutAttributes(params, function (err, data) {
+            if (err) {
+                console.log(err);
+                res.status(409).json({ response: "KO", error: err});
+            } else {
+                res.status(200).ok();
+            }
+        });
 
-	        var params = {
-	            DomainName: 'pre_usuariopernodricard',
-	            Items: [
-	                {
-	                    Attributes: [
-	                        {
-	                            Name: 'Email_Usuario',
-	                            Value: req.param('user_email'),
-	                            Replace: false
-	                        },
-	                        {
-	                            Name: 'Password',
-	                            Value: req.param('password'),
-	                            Replace: false
-	                        },
-	                        {
-	                            Name: 'Nombre',
-	                            Value: req.param('name'),
-	                            Replace: false
-	                        },
-	                        {
-	                            Name: 'Apellidos',
-	                            Value: req.param('surname'),
-	                            Replace: false
-	                        },
-	                        {
-	                            Name: 'Email_Fijo',
-	                            Value: req.param('official_email'),
-	                            Replace: false
-	                        },
-	                        {
-	                            Name: 'Email_Jefe',
-	                            Value: req.param('boss_email'),
-	                            Replace: false
-	                        },
-	                        {
-	                            Name: 'Nombre_Liga',
-	                            Value: req.param('league'),
-	                            Replace: false
-	                        }
-	                    ],
-	                    Name: new Date().getTime().toString()
-	                }
-	            ]
-	        };
+    },
 
-	        simpledb.batchPutAttributes(params, function(err, data) {
-	            if (err) {
-	 				console.log(err);
-	 				return res.json({ response: "KO" , error: err});
-	            } else {
-	                return res.ok();
-	            }
-	        });
+    deleteUser: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {
+                DomainName: sails.config.userDomain,
+                Items: [
+                    {
+                        Name: req.param('item_name')
+                    }
+                ]
+            };
 
-	    },
+        simpledb.batchDeleteAttributes(params, function (err, data) {
+            if (err) {
+                console.log(err);
+                return res.json({ response: "KO", error: err});
+            }
+        });
 
-	    /*
-	      Updates an User
-	    */
-	    updateUser: function (req, res) {
-	        var AWS = require('aws-sdk');
+    },
+    usersByLeague: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {},
+            resultItems = [],
+            selectAllData,
+            dataArray,
+            pushInObjectArray;
 
-	        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-	        AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
 
-	        var simpledb = new AWS.SimpleDB();
-
-	        var params = {
-	            DomainName: 'pre_usuariopernodricard',
-	            Items: [
-	                {
-	                    Attributes: [
-	                        {
-	                            Name: 'Email_Usuario',
-	                            Value: req.param('user_email'),
-	                            Replace: true
-	                        },
-	                        {
-	                            Name: 'Password',
-	                            Value: req.param('password'),
-	                            Replace: true
-	                        },
-	                        {
-	                            Name: 'Nombre',
-	                            Value: req.param('name'),
-	                            Replace: true
-	                        },
-	                        {
-	                            Name: 'Apellidos',
-	                            Value: req.param('surname'),
-	                            Replace: true
-	                        },
-	                        {
-	                            Name: 'Email_Fijo',
-	                            Value: req.param('official_email'),
-	                            Replace: true
-	                        },
-	                        {
-	                            Name: 'Email_Jefe',
-	                            Value: req.param('boss_email'),
-	                            Replace: true
-	                        },
-	                        {
-	                            Name: 'Nombre_Liga',
-	                            Value: req.param('league'),
-	                            Replace: true
-	                        }
-	                    ],
-	                    Name: req.param('item_name')
-	                }
-	            ]
-	        };
-
-			console.log(params);
-
-	        simpledb.batchPutAttributes(params, function(err, data) {
-	            if (err) {
-	 				console.log(err);
-	 				return res.json({ response: "KO" , error: err});
-	            } else {
-	                return res.ok();
-	            }
-	        });
-
-	    },
-
-	    deleteUser: function(req, res) {
-		     var AWS = require('aws-sdk');
-
-		     AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-		     AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
-
-		     var simpledb = new AWS.SimpleDB();
-
-		     var params = {
-		     DomainName: 'pre_usuariopernodricard',
-		     Items: [
-				     {
-				     Name: req.param('item_name')
-				     }
-		     ]};
-
-		     simpledb.batchDeleteAttributes(params, function (err, data) {
-			     if (err) {
-					console.log(err);
-	 				return res.json({ response: "KO" , error: err});
-			     }
-			 });
-
-     },
-    usersByLeague: function(req, res) {
-        var AWS = require('aws-sdk'),
-            result,
-            params = {};
-            
-            resultItems = [];
-
-            AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-            AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
-
-        var simpledb = new AWS.SimpleDB();
         params = {
-            SelectExpression: "select * from pre_usuariopernodricard where `Nombre_Liga` = '"+req.param("league") + "'",
+            SelectExpression: "select * from " + sails.config.userDomain + " where `Nombre_Liga` = '" + req.param("league") + "'",
             ConsistentRead: true
         };
-		var resultItems = [];
-		var selectAllData = function (err, data) {
-	 		 if (err) {
-	 				 console.log(err);
-	 				 return res.json({ response: "KO" , error: err});
-	 		 } else {
- 				 if (data.Items) {
- 						 resultItems = resultItems.concat(data.Items);
- 				 }
- 				 if (data.NextToken) {
- 						 params.NextToken = data.NextToken;
- 						 simpledb.select(params, selectAllData);
- 				 } else {
- 						 data.Items = resultItems;
- 						 var dataArray=[];
- 						 data.Items.forEach(function(item){
- 						 	var pushInObjectArray= new Object;
- 						 	pushInObjectArray.id=item.Name;
- 						 	item.Attributes.forEach(function(itemAttribute){
- 						 		pushInObjectArray[itemAttribute.Name]=itemAttribute.Value
- 						 	});
- 						 	dataArray.push(pushInObjectArray);
- 						 });
- 						 return res.json({ response: "OK", data:dataArray});
- 				 }
-	 		 }
-	  };
-		simpledb.select(params, selectAllData);
+
+        selectAllData = function (err, data) {
+            if (err) {
+                console.log(err);
+                res.status(200).json({ response: "KO", error: err});
+            } else {
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+                    dataArray = [];
+                    data.Items.forEach(function (item) {
+                        pushInObjectArray = {};
+                        pushInObjectArray.id = item.Name;
+                        item.Attributes.forEach(function (itemAttribute) {
+                            pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                        });
+                        dataArray.push(pushInObjectArray);
+                    });
+                    res.status(200).json({ response: "OK", data: dataArray});
+                }
+            }
+        };
+        simpledb.select(params, selectAllData);
     }
 };

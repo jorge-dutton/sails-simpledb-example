@@ -22,72 +22,72 @@
 
 module.exports.routes = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+    /***************************************************************************
+     *                                                                          *
+     * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
+     * etc. depending on your default view engine) your home page.              *
+     *                                                                          *
+     * (Alternatively, remove this and add an `index.html` file in your         *
+     * `assets` directory)                                                      *
+     *                                                                          *
+     ***************************************************************************/
 
-  '/': {view: 'homepage'},
+    '/': {view: 'homepage'},
 
-  'GET /player': 'PlayerController.init',
+    'GET /player': 'PlayerController.init',
 
-  '/search': 'PlayerController.search',
+    '/search': 'PlayerController.search',
 
-  'POST /player': 'PlayerController.create',
+    'POST /player': 'PlayerController.create',
 
-  'GET /ranking': 'RankingController.getRanking',
+    'GET /ranking': 'RankingController.getRanking',
 
-  'GET /ranking/:league': 'RankingController.getRankingByLeague',
+    'GET /ranking/:league': 'RankingController.getRankingByLeague',
 
-  'GET /ranking/user/:email': 'RankingController.getRankingByEmail',
+    'GET /ranking/user/:email': 'RankingController.getUserByEmail',
 
-  'POST /ranking/user': 'RankingController.createRankingItem',
+    'POST /ranking/user': 'RankingController.createRankingUser',
 
-  'PUT /ranking/user': 'RankingController.updateRankingItem',
+    'PUT /ranking/user': 'RankingController.updateRankingUser',
 
-  'DELETE /ranking/user': 'RankingController.deleteRankingItem',
+    'DELETE /ranking/user': 'RankingController.deleteRankingUser',
 
-  'POST /createUser': 'UserController.createUser',
+    'POST /createUser': 'UserController.createUser',
 
-  'GET /user': 'UserController.init',
+    'GET /user': 'UserController.init',
 
-  'GET /usersByLeague' :'UserController.usersByLeague',
+    'GET /usersByLeague': 'UserController.usersByLeague',
 
-  'POST /updateUser': 'UserController.updateUser',
+    'POST /updateUser': 'UserController.updateUser',
 
-  'POST /deleteUser': 'UserController.deleteUser',
+    'POST /deleteUser': 'UserController.deleteUser',
 
-  'POST /createLeague': 'LeagueController.createLeague',
+    'POST /createLeague': 'LeagueController.createLeague',
 
-  'GET /league': 'LeagueController.init',
+    'GET /league': 'LeagueController.init',
 
-  'POST /updateLeague': 'LeagueController.updateLeague',
+    'POST /updateLeague': 'LeagueController.updateLeague',
 
-  'POST /deleteLeague': 'LeagueController.deleteLeague',
+    'POST /deleteLeague': 'LeagueController.deleteLeague',
 
-  'GET /logUser' : 'LoginController.logUser'
+    'GET /logUser': 'LoginController.logUser'
 
-  //'/delete': 'PlayerController.delete'
+    //'/delete': 'PlayerController.delete'
 
-  //'/mock': 'MockController.player'
+    //'/mock': 'MockController.player'
 
-  /*'GET /categories': 'PlayerController.getCategories',
+    /*'GET /categories': 'PlayerController.getCategories',
 
-  '/leagues': 'MockController.leagues'*/
+     '/leagues': 'MockController.leagues'*/
 
-  /***************************************************************************
-  *                                                                          *
-  * Custom routes here...                                                    *
-  *                                                                          *
-  *  If a request to a URL doesn't match any of the custom routes above, it  *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
-  *                                                                          *
-  ***************************************************************************/
+    /***************************************************************************
+     *                                                                          *
+     * Custom routes here...                                                    *
+     *                                                                          *
+     *  If a request to a URL doesn't match any of the custom routes above, it  *
+     * is matched against Sails route blueprints. See `config/blueprints.js`    *
+     * for configuration options and examples.                                  *
+     *                                                                          *
+     ***************************************************************************/
 
 };

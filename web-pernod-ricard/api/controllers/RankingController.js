@@ -10,24 +10,19 @@ module.exports = {
 
 
     getRanking: function (req, res) {
-        var AWS = require('aws-sdk'),
-            simpledb,
+
+        var simpledb = sails.config.aws.getSdbConnection(),
             params = {},
             filterdScoresA,
             filterdScoresB,
             selectAllData,
             resultItems = [],
             rankingData = {},
-            ranking = { users: {} },
+            ranking = { ranking: {} },
             email;
 
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
-
-        simpledb = new AWS.SimpleDB();
-
         params = {
-            SelectExpression: 'select * from rankingpernodricard',
+            SelectExpression: 'select * from ' + sails.config.rankingDomain,
             ConsistentRead: true
         };
 
@@ -67,10 +62,10 @@ module.exports = {
                         rankingData[itemAttribute.Name] = itemAttribute.Value;
 
                     });
-                    ranking.users[email] = rankingData;
+                    ranking.ranking[email] = rankingData;
                 });
 
-                if (JSON.stringify(ranking.users) === JSON.stringify({})) {
+                if (JSON.stringify(ranking.ranking) === JSON.stringify({})) {
                     res.status(409).json({ response: "KO", error: 'No user found. Empty domain.' });
                 } else {
                     res.status(200).json(ranking);
@@ -90,24 +85,18 @@ module.exports = {
             res.status(409).json({ response: 'KO', error: "league param is mandatory for getting league's ranking" });
         }
 
-        var AWS = require('aws-sdk'),
-            simpledb,
+        var simpledb = sails.config.aws.getSdbConnection(),
             params = {},
             filterdScoresA,
             filterdScoresB,
             selectAllData,
             resultItems = [],
             rankingData = {},
-            ranking = { users: {} },
+            ranking = { ranking: {} },
             email;
 
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
-
-        simpledb = new AWS.SimpleDB();
-
         params = {
-            SelectExpression: "select * from rankingpernodricard where `league` = '" + req.param("league") + "'",
+            SelectExpression: "select * from " + sails.config.rankingDomain + " where `league` = '" + req.param("league") + "'",
             ConsistentRead: true
         };
 
@@ -143,11 +132,11 @@ module.exports = {
                         rankingData[itemAttribute.Name] = itemAttribute.Value;
 
                     });
-                    ranking.users[email] = rankingData;
+                    ranking.ranking[email] = rankingData;
                 });
 
 
-                if (JSON.stringify(ranking.users) === JSON.stringify({})) {
+                if (JSON.stringify(ranking.ranking) === JSON.stringify({})) {
                     res.status(409).json({ response: "KO", error: 'No users found for league: ' + req.param("league") });
                 } else {
                     res.status(200).json(ranking);
@@ -160,14 +149,13 @@ module.exports = {
         simpledb.select(params, selectAllData);
     },
 
-    getRankingByEmail: function (req, res) {
+    getUserByEmail: function (req, res) {
 
         if (!req.param('email')) {
             res.status(409).json({ response: 'KO', error: 'email param is mandatory for getting user data' });
         }
 
-        var AWS = require('aws-sdk'),
-            simpledb,
+        var simpledb = sails.config.aws.getSdbConnection(),
             params = {},
             findOne,
             resultItems = [],
@@ -175,13 +163,8 @@ module.exports = {
             ranking = { user: {} },
             email;
 
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
-
-        simpledb = new AWS.SimpleDB();
-
         params = {
-            SelectExpression: "select * from rankingpernodricard where `email` = '" + req.param("email") + "'",
+            SelectExpression: "select * from " + sails.config.rankingDomain + " where `email` = '" + req.param("email") + "'",
             ConsistentRead: true
         };
 
@@ -224,14 +207,13 @@ module.exports = {
         simpledb.select(params, findOne);
     },
 
-    createRankingItem: function (req, res) {
+    createRankingUser: function (req, res) {
 
         if (!req.param('email')) {
             res.status(409).json({ response: 'KO', error: 'email param is mandatory for adding a new ranking user' });
         }
 
-        var AWS = require('aws-sdk'),
-            simpledb,
+        var simpledb = sails.config.aws.getSdbConnection(),
             params = {},
             findOne,
             date = new Date(),
@@ -242,13 +224,8 @@ module.exports = {
                 ('0' + date.getMinutes()).slice(-2) + ':' +
                 ('0' + date.getSeconds()).slice(-2);
 
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
-
-        simpledb = new AWS.SimpleDB();
-
         params = {
-            SelectExpression: "select * from rankingpernodricard where `email` = '" + req.param("email") + "'",
+            SelectExpression: "select * from " + sails.config.rankingDomain + " where `email` = '" + req.param("email") + "'",
             ConsistentRead: true
         };
 
@@ -259,7 +236,7 @@ module.exports = {
                 res.status(409).json({ response: "KO", error: "User " + req.param("email") + "already exist" });
             } else {
                 params = {
-                    DomainName: 'rankingpernodricard',
+                    DomainName: sails.config.rankingDomain,
                     ItemName: new Date().getTime().toString(),
                     Attributes: [
                         {
@@ -309,16 +286,15 @@ module.exports = {
 
     },
 
-    updateRankingItem: function (req, res) {
+    updateRankingUser: function (req, res) {
 
         if (!req.param('item_name')) {
             res.status(409).json({ response: 'KO', error: 'item_name param is mandatory for update' });
         }
 
-        var AWS = require('aws-sdk'),
-            simpledb,
+        var simpledb = sails.config.aws.getSdbConnection(),
             params = {
-                DomainName: 'rankingpernodricard',
+                DomainName: sails.config.rankingDomain,
                 ItemName: req.param('item_name')
             },
             attributes = [],
@@ -329,11 +305,6 @@ module.exports = {
                 ('0' + date.getHours()).slice(-2) + ':' +
                 ('0' + date.getMinutes()).slice(-2) + ':' +
                 ('0' + date.getSeconds()).slice(-2);
-
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
-
-        simpledb = new AWS.SimpleDB();
 
         if (req.param('email')) {
             attributes.push({
@@ -396,20 +367,13 @@ module.exports = {
 
     },
 
-    deleteRankingItem: function (req, res) {
-        var AWS = require('aws-sdk'),
-            simpledb,
+    deleteRankingUser: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
             attributes = [],
             params = {
-                DomainName: 'rankingpernodricard',
+                DomainName: sails.config.rankingDomain,
                 ItemName: req.param('item_name')
             };
-
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: sails.config.aws.region, apiVersion: sails.config.aws.apiVersion});
-
-        simpledb = new AWS.SimpleDB();
-
 
         if (req.param('email')) {
             attributes.push({

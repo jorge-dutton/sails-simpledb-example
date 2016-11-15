@@ -4,105 +4,88 @@
  * @description :: Server-side logic for managing Players
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
+/*jslint unparam: true*/
+/*global sails: true*/
 module.exports = {
 
-	init: function(req, res) {
-        var AWS = require('aws-sdk'),
-            resultItems = [];
+    init: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {
+                SelectExpression: 'select * from ' + sails.config.logDomain,
+                ConsistentRead: true
+            },
+            selectAllData,
+            resultItems = [],
+            dataArray,
+            pushInObjectArray;
 
-        AWS.config.update({accessKeyId: sails.config.aws.read.accessKeyId, secretAccessKey: sails.config.aws.read.secretKey});
-        AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
-
-        var simpledb = new AWS.SimpleDB();
-
-        var params = {
-            SelectExpression: 'select Jugador, Liga, Categoria, Descripcion, Puntos_Desempeno, Puntos_Compromiso, Dia, Hora, Fecha, Respuesta, Email, Contrasena from logpernodricard',
-            ConsistentRead: true
-        };
-        var selectAllData = function (err, data) {
-             if (err) {
-                     console.log(err);
-                     return res.json({ response: "KO" , error: err});
-             } else {
-                 if (data.Items) {
-                         resultItems = resultItems.concat(data.Items);
-                 }
-                 if (data.NextToken) {
-                         params.NextToken = data.NextToken;
-                         simpledb.select(params, selectAllData);
-                 } else {
-                         data.Items = resultItems;
-                         var dataArray=[];
-                         data.Items.forEach(function(item){
-                            var pushInObjectArray= new Object;
-                            item.Attributes.forEach(function(itemAttribute){
-                                if (itemAttribute.Name == 'Jugador') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Liga') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Categoria') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Descripcion') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Puntos_Desempeno') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Puntos_Compromiso') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Dia') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Hora') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Fecha') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Respuesta') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Email') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Contrasena') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                }
-                            });
-                            
-                            if (!(Object.keys(pushInObjectArray).length < 12)) {
-                                dataArray.push(pushInObjectArray);
+        selectAllData = function (err, data) {
+            if (err) {
+                console.log(err);
+                res.status(409).json({ response: "KO", error: err});
+            } else {
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+                    dataArray = [];
+                    data.Items.forEach(function (item) {
+                        pushInObjectArray = {};
+                        item.Attributes.forEach(function (itemAttribute) {
+                            if (itemAttribute.Name === 'Jugador') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Liga') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Categoria') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Descripcion') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Puntos_Desempeno') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Puntos_Compromiso') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Dia') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Hora') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Fecha') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Respuesta') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Email') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Contrasena') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
                             }
-                           
-                         });
-                         return res.json({ response: "OK", data:dataArray});
-                 }
-             }
-      };
+                        });
+
+                        if (!(Object.keys(pushInObjectArray).length < 12)) {
+                            dataArray.push(pushInObjectArray);
+                        }
+
+                    });
+                    res.status(200).json({ response: "OK", data: dataArray });
+                }
+            }
+        };
 
         simpledb.select(params, selectAllData);
 
     },
 
-    /*
-    initRanking: function(req, res) {
-        var Firebase = require("firebase");
-
-        var ref = new Firebase("https://pernod-ricard.firebaseio.com/");
-        ref.child('users').orderByValue().once("value", function(snapshot) {
-            return res.json({ ranking: snapshot.val() });
-        });
-
-    },
-    */
-
-    search: function(req, res) {
-        var AWS = require('aws-sdk'),
-            result,
+    search: function (req, res) {
+        var simpledb = sails.config.aws.getSdbConnection(),
             params = {},
             sWhere = ' where ',
-            query = "select * from logpernodricard",
-            resultItems = [];
-
-            AWS.config.update({accessKeyId: sails.config.aws.read.accessKeyId, secretAccessKey: sails.config.aws.read.secretKey});
-            AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
-
-        var simpledb = new AWS.SimpleDB();
-
+            query = "select * from " + sails.config.logDomain,
+            resultItems = [],
+            selectAllData,
+            dataArray,
+            pushInObjectArray;
 
         if (req.param("name") !== '') {
             query = query + sWhere + "`Jugador` like '" + req.param("name") + "%'";
@@ -140,183 +123,149 @@ module.exports = {
 
         params = {
             SelectExpression: query,
-            ConsistentRead: true || false
+            ConsistentRead: true
         };
 
-        var selectAllData = function (err, data) {
-             if (err) {
-                     console.log(err);
-                     return res.json({ response: "KO" , error: err});
-             } else {
-                 if (data.Items) {
-                         resultItems = resultItems.concat(data.Items);
-                 }
-                 if (data.NextToken) {
-                         params.NextToken = data.NextToken;
-                         simpledb.select(params, selectAllData);
-                 } else {
-                         data.Items = resultItems;
-                         var dataArray=[];
-                         data.Items.forEach(function(item){
-                            var pushInObjectArray= new Object;
-                            item.Attributes.forEach(function(itemAttribute){
-                                if (itemAttribute.Name == 'Jugador') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Liga') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Categoria') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Descripcion') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Puntos_Desempeno') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Puntos_Compromiso') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Dia') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Hora') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Fecha') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Respuesta') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Email') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                } else if (itemAttribute.Name == 'Contrasena') {
-                                    pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
-                                }
-                            });
-                            if (!(Object.keys(pushInObjectArray).length < 12)) {
-                                dataArray.push(pushInObjectArray);
+        selectAllData = function (err, data) {
+            if (err) {
+                console.log(err);
+                res.status(409).json({ response: "KO", error: err});
+            } else {
+                if (data.Items) {
+                    resultItems = resultItems.concat(data.Items);
+                }
+                if (data.NextToken) {
+                    params.NextToken = data.NextToken;
+                    simpledb.select(params, selectAllData);
+                } else {
+                    data.Items = resultItems;
+                    dataArray = [];
+                    data.Items.forEach(function (item) {
+                        pushInObjectArray = {};
+                        item.Attributes.forEach(function (itemAttribute) {
+                            if (itemAttribute.Name === 'Jugador') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Liga') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Categoria') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Descripcion') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Puntos_Desempeno') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Puntos_Compromiso') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Dia') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Hora') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Fecha') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Respuesta') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Email') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
+                            } else if (itemAttribute.Name === 'Contrasena') {
+                                pushInObjectArray[itemAttribute.Name] = itemAttribute.Value;
                             }
-                           
-                         });
-                         return res.json({ response: "OK", data:dataArray});
-                 }
-             }
-      };
+                        });
+                        if (!(Object.keys(pushInObjectArray).length < 12)) {
+                            dataArray.push(pushInObjectArray);
+                        }
 
-        result = simpledb.select(params, selectAllData);
+                    });
+                    res.status(200).json({ response: "OK", data: dataArray});
+                }
+            }
+        };
+
+        simpledb.select(params, selectAllData);
 
     },
 
     /*
-      Create a Player
+     Create a Player
      */
     create: function (req, res) {
-        var AWS = require('aws-sdk');
-
-        AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-        AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
-
-        var simpledb = new AWS.SimpleDB();
-
-        var params = {
-            DomainName: 'logpernodricard',
-            Items: [
-                {
-                    Attributes: [
-                        {
-                            Name: 'Jugador',
-                            Value: req.param('player'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Liga',
-                            Value: req.param('league'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Categoria',
-                            Value: req.param('category'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Descripcion',
-                            Value: req.param('event_description'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Puntos_Desempeno',
-                            Value: req.param('perfomance'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Puntos_Compromiso',
-                            Value: req.param('commitment'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Dia',
-                            Value: req.param('day'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Hora',
-                            Value: req.param('hour'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Fecha',
-                            Value: req.param('date'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Respuesta',
-                            Value: req.param('answer'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Email',
-                            Value: req.param('email'),
-                            Replace: true || false
-                        },
-                        {
-                            Name: 'Contrasena',
-                            Value: req.param('password'),
-                            Replace: true || false
-                        }
-                    ],
-                    Name: new Date().getTime().toString()
-                }
-            ]
-        };
-        simpledb.batchPutAttributes(params, function(err, data) {
+        var simpledb = sails.config.aws.getSdbConnection(),
+            params = {
+                DomainName: sails.config.logDomain,
+                Items: [
+                    {
+                        Attributes: [
+                            {
+                                Name: 'Jugador',
+                                Value: req.param('player'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Liga',
+                                Value: req.param('league'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Categoria',
+                                Value: req.param('category'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Descripcion',
+                                Value: req.param('event_description'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Puntos_Desempeno',
+                                Value: req.param('perfomance'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Puntos_Compromiso',
+                                Value: req.param('commitment'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Dia',
+                                Value: req.param('day'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Hora',
+                                Value: req.param('hour'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Fecha',
+                                Value: req.param('date'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Respuesta',
+                                Value: req.param('answer'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Email',
+                                Value: req.param('email'),
+                                Replace: false
+                            },
+                            {
+                                Name: 'Contrasena',
+                                Value: req.param('password'),
+                                Replace: false
+                            }
+                        ],
+                        Name: new Date().getTime().toString()
+                    }
+                ]
+            };
+        simpledb.batchPutAttributes(params, function (err, data) {
             if (err) {
-                return res.badRequest();
+                res.status(409).badRequest();
             } else {
-                return res.ok();
+                res.status(200).ok();
             }
         });
 
-    }/*,
-
-     delete: function(req, res) {
-     var AWS = require('aws-sdk');
-
-     AWS.config.update({accessKeyId: sails.config.aws.readAndWrite.accessKeyId, secretAccessKey: sails.config.aws.readAndWrite.secretKey});
-     AWS.config.update({region: 'eu-west-1', apiVersion: '2009-04-15'});
-
-     var simpledb = new AWS.SimpleDB();
-
-     var params = {
-     DomainName: 'logpernodricard',
-     Items: [
-     {
-     Name: '1429603980341'  //Name of row
-     }
-     ]
-     };
-     simpledb.batchDeleteAttributes(params, function (err, data) {
-     if (err) {
-     console.log(err);
-     } else {
-     //console.log('delete: ' + name);
-     }
-     });
-
-     }*/
-
-
+    }
 
 };

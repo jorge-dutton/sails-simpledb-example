@@ -14,6 +14,18 @@ module.exports.aws = {
     readAndWrite: {
         accessKeyId: 'AKIAJWLUQYUC45KM4VTA',
         secretKey: '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'
+    },
+
+    getSdbConnection: function () {
+        var AWS = require('aws-sdk'),
+            simpledb;
+
+        AWS.config.update({accessKeyId: sails.config.readAndWrite.accessKeyId, secretAccessKey: sails.config.readAndWrite.secretKey});
+        AWS.config.update({region: sails.config.region, apiVersion: sails.config.apiVersion});
+
+        simpledb = new AWS.SimpleDB();
+
+        return simpledb;
     }
 
 };
